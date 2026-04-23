@@ -14,44 +14,17 @@
   ],
   "umbrales_alerta": {
     "temperatura": {
-      "rojo_max": {
-        "valor": 42.0,
-        "mensaje": "Riesgo extremo por calor - Riesgo para la salud muy alto"
-      },
-      "naranja_max": {
-        "valor": 39.0,
-        "mensaje": "Riesgo importante por calor - Evitar salir en horas centrales."
-      },
-      "amarillo_max": {
-        "valor": 36.0,
-        "mensaje": "Riesgo por calor - Precaución en exteriores."
-      },
-      "rojo_min": {
-        "valor": -10.0,
-        "mensaje": "Frío extremo. Riesgo de heladas y nevadas severas"
-      },
-      "naranja_min": {
-        "valor": -6.0,
-        "mensaje": "Temperaturas gélidas. Riesgo de heladas."
-      },
-      "amarillo_min": {
-        "valor": -4.0,
-        "mensaje": "Precaución por heladas. Posibilidad de hielo en carreteras."
+      "rojo_max": {"valor": 42.0, "msj": "Riesgo extremo por calor - Riesgo para la salud muy alto"},
+      "rojo_min": {"valor": -10.0, "msj": "Frío extremo - Riesgo de heladas y nevadas severas"},
+      "naranja_max": {"valor": 39.0, "msj": "Riesgo importante por calor - Evitar salir en horas centrales"},
+      "naranja_min": {"valor": -6.0, "msj": "Temperaturas gélidas - Riesgo de heladas"},
+      "amarillo_max": {"valor": 36.0, "msj": "Riesgo por calor - Precaución en exteriores"},
+      "amarillo_min": {"valor": -4.0, "msj": "Precaución por heladas - Posibilidad de hielo en carreteras"}
       }
     },
     "viento": {
-      "rojo": { 
-        "valor": 110.0,
-        "mensaje": "¡Alerta de viento fuerte!"
-    },
-      "naranja": {
-        "valor": 90.0,
-        "mensaje": "Cierre de parques."
-      },
-      "amarillo": {
-        "valor": 70.0,
-        "mensaje": "Precaución en exteriores."
+      "rojo": {"valor": 110.0, "msj": "¡Alerta de viento fuerte!"},
+      "naranja": {"valor": 90.0, "msj": "Viento fuerte - Precaución en exteriores. Cierre de parques."},
+      "amarillo": {"valor": 70.0, "msj": "Viento moderado - Precaución en exteriores."}
       }
     }
-  }
-}
