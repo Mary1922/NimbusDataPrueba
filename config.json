@@ -1,0 +1,30 @@
+{
+  "proyecto": "NimbusData",
+  "version": "1.0.0",
+  "configuracion_fuente": {
+    "nombre": "AEMET OpenData",
+    "tipo": "Observación en tiempo real"
+  },
+  "estaciones": [
+    { "nombre": "Retiro", "id": "3195" },
+    { "nombre": "Ciudad Universitaria", "id": "3194U" },
+    { "nombre": "Cuatro Vientos", "id": "3196" },
+    { "nombre": "Barajas Adolfo Suárez", "id": "3129" },
+    { "nombre": "Madrid El Goloso", "id": "3126Y" }
+  ],
+  "umbrales_alerta": {
+    "temperatura": {
+      "rojo_max": {"valor": 42.0, "msj": "Riesgo extremo por calor - Riesgo para la salud muy alto"},
+      "rojo_min": {"valor": -10.0, "msj": "Frío extremo - Riesgo de heladas y nevadas severas"},
+      "naranja_max": {"valor": 39.0, "msj": "Riesgo importante por calor - Evitar salir en horas centrales"},
+      "naranja_min": {"valor": -6.0, "msj": "Temperaturas gélidas - Riesgo de heladas"},
+      "amarillo_max": {"valor": 36.0, "msj": "Riesgo por calor - Precaución en exteriores"},
+      "amarillo_min": {"valor": -4.0, "msj": "Precaución por heladas - Posibilidad de hielo en carreteras"}
+      }
+    },
+    "viento": {
+      "rojo": {"valor": 110.0, "msj": "¡Alerta de viento fuerte!"},
+      "naranja": {"valor": 90.0, "msj": "Viento fuerte - Precaución en exteriores. Cierre de parques."},
+      "amarillo": {"valor": 70.0, "msj": "Viento moderado - Precaución en exteriores."}
+      }
+    }
