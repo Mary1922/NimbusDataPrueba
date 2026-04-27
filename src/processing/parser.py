@@ -1,3 +1,5 @@
+import re
+from src.processing.models import Station, WeatherRecord
 from utils.logger import config_logger
 
 # Inicializamos el logger para registrar el proceso de limpieza
@@ -64,6 +66,33 @@ class DataParser:
                         
                 except Exception as e:
                     logger.error(f"Error inesperado procesando la estación {station_id}: {e}")
-
+        
+        
         logger.info(f"Procesados {len(processed_data)} registros válidos de Madrid.")
         return processed_data
+
+    def parse_stations(self, raw_data, filter_city = "MADRID"):
+        """
+        """
+        stations_map = {}
+        
+        for item in raw_data:
+            name = item.get("nombre")
+            indicativo = item.get("indicativo")
+
+            # Lógica de filtrado: primera palabra del nombre coincide con el filtro
+            if indicativo and re.split(r'[,\s]+', name)[0] == filter_city:
+                try:
+                    station_obj = Station(
+                        indicativo=indicativo,
+                        nombre=name,
+                        provincia=item.get("provincia"),
+                        latitud=item.get("latitud"),
+                        longitud=item.get("longitud"),
+                        altitud=item.get("altitud")
+                    )
+                    stations_map[indicativo] = station_obj
+                except Exception as e:
+                    self.logger.error(f"Error al crear objeto Station para {indicativo}: {e}")
+                    
+        return stations_map
