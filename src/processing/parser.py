@@ -1,48 +1,70 @@
-from utils.logger import configurar_logger
+from utils.logger import config_logger
 
 # Inicializamos el logger para registrar el proceso de limpieza
-logger = configurar_logger()
+logger = config_logger()
 
 class DataParser:
-    def __init__(self, estaciones_permitidas):
+    def __init__(self, allowed_stations):
         """
         Inyectamos la lista de estaciones del config.json.
-        estaciones_permitidas: [{'nombre': 'Retiro', 'id': '3195'}, ...]
+        Allowed stations: [{'nombre': 'Retiro', 'id': '3195'}, ...]
         """
         # Creamos un diccionario rápido { 'id': 'nombre' } para buscar fácilmente
-        self.mapeo_estaciones = {e['id']: e['nombre'] for e in estaciones_permitidas}
+        self.station_mapping = {s['id']: s['nombre'] for s in allowed_stations}
 
-    def filtrar_y_limpiar(self, datos_raw):
+    def parse_and_clean(self, raw_data):
         """
         Recibe la lista gigante de la API (datos_raw) y devuelve 
         solo los registros de Madrid con los nombres de las llaves correctos.
         """
-        datos_procesados = []
+        processed_data = []
 
-        for registro in datos_raw:
-            id_estacion = registro.get("idema")
+        for register in raw_data:
+            station_id = register.get("indicativo")
             
             # 1. Filtro: ¿Esta estación está en mi lista de Madrid?
-            if id_estacion in self.mapeo_estaciones:
+            if station_id in self.station_mapping:
                 try:
+                    # Helper function to convert "13,4" (str) to 13.4 (float)
+                    def clean_float(value):
+                        if value is None: return None
+                        try:
+                            return float(str(value).replace(',', '.'))
+                        except ValueError:
+                            return None
                     # 2. Traducción: Mapeamos los códigos de AEMET a nuestras llaves
-                    # 'ta' -> temperatura
-                    # 'vv' -> viento
-                    item_limpio = {
-                        "nombre": self.mapeo_estaciones[id_estacion],
-                        "temperatura": registro.get("ta"),
-                        "viento": registro.get("vv"),
-                        "fecha": registro.get("fint") # Fecha/hora de la observación
+                    clean_item = {
+                        "name": self.station_mapping[station_id],
+                        "indicativo": station_id,
+                        "province": register.get("provincia"),
+                        "altitude": clean_float(register.get("altitud")),
+                        "date": register.get("fecha"), # Fecha/hora de la observación
+                        "temp_avg": clean_float(register.get("tmed")),
+                        "temp_min": clean_float(register.get("tmin")),
+                        "time_temp_min": register.get("horatmin"),
+                        "temp_max": clean_float(register.get("tmax")),
+                        "time_temp_max": register.get("horatmax"),
+                        "wind": clean_float(register.get("racha")),
+                        "humidity_avg": clean_float(register.get("hrMedia")), 
+                        "humidity_min": clean_float(register.get("hrMin")),
+                        "humidity_max": clean_float(register.get("hrMax")),
+                        "time_humidity_min": register.get("horahrmin"),
+                        "time_humidity_max": register.get("horahrmax"), 
+                        "precipitation": clean_float(register.get("prec")),
+                        "wind_gust": clean_float(register.get("racha")),
+                        "time_wind_gust": register.get("horaracha"),
+                        "wind_direction": register.get("dir"),
+                        "wind_speed_avg": clean_float(register.get("velmedia")),
                     }
                     
                     # 3. Validación: Solo añadimos si tiene los datos numéricos necesarios
-                    if item_limpio["temperatura"] is not None and item_limpio["viento"] is not None:
-                        datos_procesados.append(item_limpio)
+                    if clean_item["temperature"] is not None and clean_item["wind"] is not None:
+                        processed_data.append(clean_item)
                     else:
-                        logger.warning(f"Datos incompletos en estación {item_limpio['nombre']} (ID: {id_estacion})")
+                        logger.warning(f"Datos incompletos en estación {clean_item['name']} (ID: {station_id}) - Registro omitido.")
                         
                 except Exception as e:
-                    logger.error(f"Error inesperado procesando la estación {id_estacion}: {e}")
+                    logger.error(f"Error inesperado procesando la estación {station_id}: {e}")
 
-        logger.info(f"Procesados {len(datos_procesados)} registros válidos de Madrid.")
-        return datos_procesados
+        logger.info(f"Procesados {len(processed_data)} registros válidos de Madrid.")
+        return processed_data
