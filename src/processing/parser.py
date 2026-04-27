@@ -44,7 +44,6 @@ class DataParser:
                         "time_temp_min": register.get("horatmin"),
                         "temp_max": clean_float(register.get("tmax")),
                         "time_temp_max": register.get("horatmax"),
-                        "wind": clean_float(register.get("racha")),
                         "humidity_avg": clean_float(register.get("hrMedia")), 
                         "humidity_min": clean_float(register.get("hrMin")),
                         "humidity_max": clean_float(register.get("hrMax")),
@@ -58,7 +57,7 @@ class DataParser:
                     }
                     
                     # 3. Validación: Solo añadimos si tiene los datos numéricos necesarios
-                    if clean_item["temperature"] is not None and clean_item["wind"] is not None:
+                    if clean_item["temp_avg"] is not None and clean_item["wind_gust"] is not None:
                         processed_data.append(clean_item)
                     else:
                         logger.warning(f"Datos incompletos en estación {clean_item['name']} (ID: {station_id}) - Registro omitido.")
