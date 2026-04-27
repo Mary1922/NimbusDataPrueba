@@ -22,10 +22,10 @@ class WeatherRecord:
     station_id: str
     name: str
     province: str
-    temp_avg: float
-    temp_min: float
+    temp_avg: Optional[float] = None
+    temp_min: Optional[float] = None
     time_temp_min: Optional[str] = None
-    temp_max: float
+    temp_max: Optional[float] = None
     time_temp_max: Optional[str] = None
     humidity_avg: Optional[int] = None
     humidity_min: Optional[int] = None
