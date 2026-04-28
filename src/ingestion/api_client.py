@@ -3,23 +3,18 @@ import requests
 import os
 import time
 from dotenv import load_dotenv
-from src.logger import log_info, log_error
+# from src.logger import log_info, log_error
+import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 load_dotenv()
 
-API_KEY = os.getenv("API_KEY")
-
-print(response.status_code)
-print(response.json())
-
-
 class AemetClient:
 
-    def __init__(self, API_KEY):
-        self.api_key = API_KEY
-
+    def __init__(self):
+        self.api_key = os.getenv("AEMET_API_KEY")
+        self.base_url = "https://opendata.aemet.es/opendata/api"
         self.session = requests.Session()
 
         # Headers obligatorios
@@ -37,12 +32,11 @@ class AemetClient:
         adapter = HTTPAdapter(max_retries=retry_strategy)
         self.session.mount("https://", adapter)
 
-     def get_weather(self, station_id, start_date, end_date):
+    def get_weather(self, station_id, start_date, end_date):
 
-        base_url = "https://opendata.aemet.es/opendata/api"
         endpoint = f"/valores/climatologicos/diarios/datos/fechaini/{start_date}/fechafin/{end_date}/estacion/{station_id}"
-        url = f"{base_url}/{endpoint}"
-    
+        url = f"{self.base_url}/{endpoint}"
+
         try:
                 # 🔹 PRIMER REQUEST
                 start = time.time()
@@ -77,15 +71,14 @@ class AemetClient:
 
                 return None
 
-            except Exception as e:
-                logging.error(f"Error general: {e}")
-                return None
+        except Exception as e:
+            logging.error(f"Error general: {e}")
+            return None
         
     def get_stations(self): 
 
-        base_url = "https://opendata.aemet.es/opendata/api"
         endpoint = "/valores/climatologicos/inventarioestaciones/todasestaciones"
-        url = f"{base_url}/{endpoint}"
+        url = f"{self.base_url}/{endpoint}"
         
         try:
             response = self.session.get(url, timeout=5)
