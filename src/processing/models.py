@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import Optional
 
 @dataclass
@@ -15,6 +15,12 @@ class Station:
     @property
     def geo_id(self) -> str:
         return f"{self.station_id}_{self.latitude}_{self.longitude}_{self.altitude}"
+    
+    def to_dict(self):
+        """
+        Serializa la estación a un diccionario para guardarla en el JSON.
+        """
+        return asdict(self)
 
 @dataclass
 class WeatherRecord:
@@ -37,3 +43,13 @@ class WeatherRecord:
     time_wind_gust: Optional[str] = None
     wind_direction: Optional[float] = None
     wind_speed_avg: Optional[float] = None
+
+    @property
+    def record_id(self) -> str:
+        return f"{self.date}_{self.station_id}"
+    
+    def to_dict(self):
+        """
+        Serializa el registro a un diccionario para guardarlo en el JSON.
+        """
+        return asdict(self)
