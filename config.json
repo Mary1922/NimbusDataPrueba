@@ -11,13 +11,6 @@
     "interval_minutes": 30,
     "debug_mode": true
   },
-  "stations": [
-    { "nombre": "Retiro", "id": "3195" },
-    { "nombre": "Ciudad Universitaria", "id": "3194U" },
-    { "nombre": "Cuatro Vientos", "id": "3196" },
-    { "nombre": "Barajas Adolfo Suárez", "id": "3129" },
-    { "nombre": "Madrid El Goloso", "id": "3126Y" }
-  ],
   "alert_thresholds": {
     "temperature": {
       "red_max": {"value": 42.0, "msg": "Riesgo extremo por calor - Riesgo para la salud muy alto"},
