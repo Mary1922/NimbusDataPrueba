@@ -1,9 +1,9 @@
 import re
 from src.processing.models import Station, WeatherRecord
-from utils.logger import config_logger
+from src.utils.logger import logging
 
 # Inicializamos el logger para registrar el proceso de limpieza
-logger = config_logger()
+logger = logging.getLogger(__name__)
 
 class DataParser:
     def __init__(self, allowed_stations):
