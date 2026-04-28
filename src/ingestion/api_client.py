@@ -50,7 +50,7 @@ print(response.json())
 class AemetClient:
 
     def __init__(self, API_KEY):
-        self.api_key = API_KEY
+        self.api_key = API_KEY_API_KEY
 
         self.session = requests.Session()
 
