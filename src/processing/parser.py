@@ -81,7 +81,7 @@ class DataParser:
             indicativo = item.get("indicativo")
 
             # Lógica de filtrado: primera palabra del nombre coincide con el filtro
-            if indicativo and re.split(r'[,\s]+', name)[0] == filter_city:
+            if indicativo and name and re.split(r'[,\s]+', name)[0] == filter_city:
                 try:
                     station_obj = Station(
                         indicativo=indicativo,
@@ -93,6 +93,6 @@ class DataParser:
                     )
                     stations_map[indicativo] = station_obj
                 except Exception as e:
-                    self.logger.error(f"Error al crear objeto Station para {indicativo}: {e}")
+                    logger.error(f"Error al crear objeto Station para {indicativo}: {e}")
                     
         return stations_map
