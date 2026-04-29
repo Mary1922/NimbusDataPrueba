@@ -1,5 +1,6 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict, field
 from typing import Optional
+from datetime import datetime
 
 @dataclass
 class Station:
@@ -14,7 +15,17 @@ class Station:
 
     @property
     def geo_id(self) -> str:
+        """
+        Genera un ID único combinando fecha completa y estación.
+        Ejemplo: "3126Y_403341N_034243W_740"
+        """
         return f"{self.station_id}_{self.latitude}_{self.longitude}_{self.altitude}"
+    
+    def to_dict(self):
+        """
+        Serializa la estación a un diccionario para guardarla en el JSON.
+        """
+        return asdict(self)
 
 @dataclass
 class WeatherRecord:
@@ -22,10 +33,10 @@ class WeatherRecord:
     station_id: str
     name: str
     province: str
-    temp_avg: float
-    temp_min: float
+    temp_avg: Optional[float] = None
+    temp_min: Optional[float] = None
     time_temp_min: Optional[str] = None
-    temp_max: float
+    temp_max: Optional[float] = None
     time_temp_max: Optional[str] = None
     humidity_avg: Optional[int] = None
     humidity_min: Optional[int] = None
@@ -35,5 +46,21 @@ class WeatherRecord:
     precipitation: Optional[float] = None
     wind_gust: Optional[float] = None
     time_wind_gust: Optional[str] = None
-    wind_direction: Optional[float] = None
+    wind_direction: Optional[int] = None
     wind_speed_avg: Optional[float] = None
+    # Para caché (TTL): permite saber si el dato debe volver a descargarse
+    last_update: str = field(default_factory=lambda: datetime.now().isoformat())
+
+    @property
+    def record_id(self) -> str:
+        """
+        Genera un ID único combinando fecha completa y estación.
+        Ejemplo: "2026-04-01_3195"
+        """
+        return f"{self.date}_{self.station_id}"
+    
+    def to_dict(self):
+        """
+        Serializa el registro a un diccionario para guardarlo en el JSON.
+        """
+        return asdict(self)
