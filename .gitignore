@@ -26,4 +26,4 @@ Thumbs.db
 # --- BACKUPS Y TEMPORALES ---
 *.bak
 *.tmp
-*.swp
+*.swp.venv/
