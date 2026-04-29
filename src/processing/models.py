@@ -1,5 +1,6 @@
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from typing import Optional
+from datetime import datetime
 
 @dataclass
 class Station:
@@ -14,6 +15,10 @@ class Station:
 
     @property
     def geo_id(self) -> str:
+        """
+        Genera un ID único combinando fecha completa y estación.
+        Ejemplo: "3126Y_403341N_034243W_740"
+        """
         return f"{self.station_id}_{self.latitude}_{self.longitude}_{self.altitude}"
     
     def to_dict(self):
@@ -41,11 +46,17 @@ class WeatherRecord:
     precipitation: Optional[float] = None
     wind_gust: Optional[float] = None
     time_wind_gust: Optional[str] = None
-    wind_direction: Optional[float] = None
+    wind_direction: Optional[int] = None
     wind_speed_avg: Optional[float] = None
+    # Para caché (TTL): permite saber si el dato debe volver a descargarse
+    last_update: str = field(default_factory=lambda: datetime.now().isoformat())
 
     @property
     def record_id(self) -> str:
+        """
+        Genera un ID único combinando fecha completa y estación.
+        Ejemplo: "2026-04-01_3195"
+        """
         return f"{self.date}_{self.station_id}"
     
     def to_dict(self):
