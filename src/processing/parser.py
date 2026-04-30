@@ -6,25 +6,24 @@ from src.utils.logger import config_logger
 logger = config_logger(__name__)
 
 class DataParser:
-    def __init__(self, allowed_stations):
+    def __init__(self):
         """
         Allowed stations: [{'nombre': 'Retiro', 'id': '3195'}, ...]
         """
-        self.station_mapping = {s['id']: s['nombre'] for s in allowed_stations}
 
-    def parse_and_clean(self, raw_data):
+    def parse_weather(self, raw_data):
         """
         Recibe la lista de la API y devuelve una lista de objetos WeatherRecord.
         """
         processed_data = []
-        seen_indicators = set()  # Para evitar duplicados en la misma carga
+        
 
         for register in raw_data:
             indicator = register.get("indicativo")
             
             # Filtro de estaciones permitidas y control de duplicados
-            if indicator in self.station_mapping and indicator not in seen_indicators:
-                try:
+            # if indicator in self.station_mapping and indicator not in seen_indicators:
+            try:
                     def clean_float(value):
                         if value is None: return None
                         try:
@@ -56,14 +55,14 @@ class DataParser:
                     )
                     
                     # Validación mínima para alertas
-                    if record.temp_max is not None and record.wind_gust is not None:
-                        processed_data.append(record)
-                        seen_indicators.add(indicator)
-                    else:
-                        logger.warning(f"Datos esenciales (temp/viento) ausentes en {record.name} - Omitido.")
+                    # if record.temp_max is not None and record.wind_gust is not None:
+                    processed_data.append(record)
+                        # seen_indicators.add(indicator)
+                    #else:
+                        # logger.warning(f"Datos esenciales (temp/viento) ausentes en {record.name} - Omitido.")
                         
-                except Exception as e:
-                    logger.error(f"Error inesperado procesando la estación {indicator}: {e}")
+            except Exception as e:
+                logger.error(f"Error inesperado procesando la estación {indicator}: {e}")
         
         logger.info(f"Procesados {len(processed_data)} objetos WeatherRecord de Madrid.")
         return processed_data
@@ -81,12 +80,12 @@ class DataParser:
             if indicativo and name and re.split(r'[,\s]+', name)[0] == filter_city:
                 try:
                     station_obj = Station(
-                        indicativo=indicativo,
-                        nombre=name,
-                        provincia=item.get("provincia"),
-                        latitud=item.get("latitud"),
-                        longitud=item.get("longitud"),
-                        altitud=item.get("altitud")
+                        station_id=indicativo,
+                        name=name,
+                        province=item.get("provincia"),
+                        latitude=item.get("latitud"),
+                        longitude=item.get("longitud"),
+                        altitude=item.get("altitud")
                     )
                     stations_map[indicativo] = station_obj
                 except Exception as e:
