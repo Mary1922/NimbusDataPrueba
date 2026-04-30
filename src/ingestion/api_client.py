@@ -3,12 +3,8 @@ import requests
 import os
 import time
 from dotenv import load_dotenv
-<<<<<<< HEAD
 # from src.logger import log_info, log_error
 import requests
-=======
-from src.logger import log_info, log_error
->>>>>>> main
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
@@ -16,7 +12,6 @@ load_dotenv()
 
 class AemetClient:
 
-<<<<<<< HEAD
     def __init__(self):
         self.api_key = os.getenv("AEMET_API_KEY")
         self.base_url = "https://opendata.aemet.es/opendata/api"
@@ -42,40 +37,6 @@ class AemetClient:
         endpoint = f"/valores/climatologicos/diarios/datos/fechaini/{start_date}/fechafin/{end_date}/estacion/{station_id}"
         url = f"{self.base_url}/{endpoint}"
 
-=======
-print(response.status_code)
-print(response.json())
-
-
-class AemetClient:
-
-    def __init__(self, API_KEY):
-        self.api_key = API_KEY
-
-        self.session = requests.Session()
-
-        # Headers obligatorios
-        self.session.headers.update({
-            "User-Agent": "NimbusData/1.0",
-            "api_key": self.api_key
-        })
-        
-        # Configurar reintentos
-        retry_strategy = Retry(
-            total=3,
-            backoff_factor=2,
-            status_forcelist=[429, 500, 502, 503]
-        )
-        adapter = HTTPAdapter(max_retries=retry_strategy)
-        self.session.mount("https://", adapter)
-
-     def get_weather(self, station_id, start_date, end_date):
-
-        base_url = "https://opendata.aemet.es/opendata/api"
-        endpoint = f"/valores/climatologicos/diarios/datos/fechaini/{start_date}/fechafin/{end_date}/estacion/{station_id}"
-        url = f"{base_url}/{endpoint}"
-    
->>>>>>> main
         try:
                 # 🔹 PRIMER REQUEST
                 start = time.time()
@@ -102,6 +63,12 @@ class AemetClient:
                 if response_data.status_code == 200:
                     return response_data.json()
 
+                elif response_data.status_code == 401:
+                    logging.error("401 usuario no identificado")
+
+                elif response_data.status_code == 403:
+                    logging.error("403 usuario sin permiso de acceso")
+
                 elif response_data.status_code == 404:
                     logging.error("404 en datos")
 
@@ -110,7 +77,6 @@ class AemetClient:
 
                 return None
 
-<<<<<<< HEAD
         except Exception as e:
             logging.error(f"Error general: {e}")
             return None
@@ -119,17 +85,6 @@ class AemetClient:
 
         endpoint = "/valores/climatologicos/inventarioestaciones/todasestaciones"
         url = f"{self.base_url}/{endpoint}"
-=======
-            except Exception as e:
-                logging.error(f"Error general: {e}")
-                return None
-        
-    def get_stations(self): 
-
-        base_url = "https://opendata.aemet.es/opendata/api"
-        endpoint = "/valores/climatologicos/inventarioestaciones/todasestaciones"
-        url = f"{base_url}/{endpoint}"
->>>>>>> main
         
         try:
             response = self.session.get(url, timeout=5)
@@ -152,6 +107,12 @@ class AemetClient:
 
             if response_data.status_code == 200:
                 return response_data.json()
+
+            elif response_data.status_code == 401:
+                logging.error("401 usuario no identificado")
+
+            elif response_data.status_code == 403:
+                logging.error("403 usuario sin permiso de acceso")
 
             elif response_data.status_code == 404:
                 logging.error("404 en datos de estaciones")
