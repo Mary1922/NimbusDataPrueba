@@ -3,7 +3,7 @@ import requests
 import os
 import time
 from dotenv import load_dotenv
-# from src.logger import log_info, log_error
+from src.logger import log_info, log_error, log_warning
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -43,42 +43,42 @@ class AemetClient:
                 response = self.session.get(url, timeout=5)
                 latency = time.time() - start
 
-                logging.info(f"STEP1 {url} - {response.status_code} - {latency:.2f}s")
+                log_info.info(f"STEP1 {url} - {response.status_code} - {latency:.2f}s")
 
                 if response.status_code != 200:
-                    logging.error(f"Error inicial: {response.status_code}")
+                    log_error.error(f"Error inicial: {response.status_code}")
                     return None
 
                 data_url = response.json().get("datos")
 
                 if not data_url:
-                    logging.error("No se encontró URL de datos")
+                    log_error.error("No se encontró URL de datos")
                     return None
 
                 # 🔹 SEGUNDO REQUEST
                 response_data = self.session.get(data_url, timeout=5)
 
-                logging.info(f"STEP2 {data_url} - {response_data.status_code}")
+                log_info.info(f"STEP2 {data_url} - {response_data.status_code}")
 
                 if response_data.status_code == 200:
                     return response_data.json()
 
                 elif response_data.status_code == 401:
-                    logging.error("401 usuario no identificado")
+                    log_error.error("401 usuario no identificado")
 
                 elif response_data.status_code == 403:
-                    logging.error("403 usuario sin permiso de acceso")
+                    log_error.error("403 usuario sin permiso de acceso")
 
                 elif response_data.status_code == 404:
-                    logging.error("404 en datos")
+                    log_error.error("404 en datos")
 
                 elif response_data.status_code == 429:
-                    logging.error("429 rate limit")
+                    log_error.error("429 rate limit")
 
                 return None
 
         except Exception as e:
-            logging.error(f"Error general: {e}")
+            log_error.error(f"Error general: {e}")
             return None
         
     def get_stations(self): 
@@ -89,39 +89,39 @@ class AemetClient:
         try:
             response = self.session.get(url, timeout=5)
 
-            logging.info(f"GET {url} - {response.status_code}")
+            log_info.info(f"GET {url} - {response.status_code}")
 
             if response.status_code != 200:
-                logging.error(f"Error al obtener estaciones: {response.status_code}")
+                log_error.error(f"Error al obtener estaciones: {response.status_code}")
                 return None
 
             data_url = response.json().get("datos")
 
             if not data_url:
-                logging.error("No se encontró URL de datos de estaciones")
+                log_error.error("No se encontró URL de datos de estaciones")
                 return None
 
             response_data = self.session.get(data_url, timeout=5)
 
-            logging.info(f"GET {data_url} - {response_data.status_code}")
+            log_info.info(f"GET {data_url} - {response_data.status_code}")
 
             if response_data.status_code == 200:
                 return response_data.json()
 
             elif response_data.status_code == 401:
-                logging.error("401 usuario no identificado")
+                log_error.error("401 usuario no identificado")
 
             elif response_data.status_code == 403:
-                logging.error("403 usuario sin permiso de acceso")
+                log_error.error("403 usuario sin permiso de acceso")
 
             elif response_data.status_code == 404:
-                logging.error("404 en datos de estaciones")
+                log_error.error("404 en datos de estaciones")
 
             elif response_data.status_code == 429:
-                logging.error("429 rate limit en datos de estaciones")
+                log_error.error("429 rate limit en datos de estaciones")
 
             return None
 
         except Exception as e:
-            logging.error(f"Error general al obtener estaciones: {e}")
+            log_error.error(f"Error general al obtener estaciones: {e}")
             return None
