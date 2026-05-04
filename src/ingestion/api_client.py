@@ -45,7 +45,7 @@ class AemetClient:
         }
         
         msg = messages.get(code, f"Error inesperado ({code})")
-        logging.error(f"[{context}] {msg}")
+        log_error.error(f"[{context}] {msg}")
         return False
     
     def _execute_request(self, endpoint):
@@ -61,7 +61,7 @@ class AemetClient:
             response = self.session.get(url, timeout=10)
             latency = time.time() - start_t
 
-            logging.info(f"STEP1 {url} - {response.status_code} - {latency:.2f}s")
+            log_info.info(f"STEP1 {url} - {response.status_code} - {latency:.2f}s")
 
             if not self._check_status(response, f"STEP1: {endpoint}"):
                 return None
@@ -70,13 +70,13 @@ class AemetClient:
             
             # Validación del estado interno de AEMET
             if res_json.get("estado") != 200:
-                logging.warning(f"AEMET (Interno {res_json.get('estado')}): "
+                log_warning.warning(f"AEMET (Interno {res_json.get('estado')}): "
                                 f"{res_json.get('descripcion')}")
                 return None
 
             data_url = res_json.get("datos")
             if not data_url:
-                logging.error(f"No se encontró 'datos_url' en la respuesta de {endpoint}")
+                log_error.error(f"No se encontró 'datos_url' en la respuesta de {endpoint}")
                 return None
 
             # PASO 2: Descargar el contenido real
@@ -88,7 +88,7 @@ class AemetClient:
             return None
 
         except requests.exceptions.RequestException as e:
-            logging.error(f"Error de red: {e}")
+            log_error.error(f"Error de red: {e}")
             return None
 
 
