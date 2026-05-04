@@ -1858,17 +1858,17 @@
                 "last_update": "2026-05-02T04:23:50.423955"
             },
             "2026-05-04": {
-                "date": "2026-05-04T09:00:00UTC",
+                "date": "2026-05-04T17:00:00UTC",
                 "station_id": "3126Y",
                 "name": "EL GOLOSO (AUTOMÁTICA)",
-                "temp_avg": 12.9,
+                "temp_avg": 16.7,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 72.0,
+                "humidity_avg": 49.0,
                 "precipitation": 0.0,
-                "wind_direction": 268.0,
-                "wind_speed_avg": 0.5,
-                "last_update": "2026-05-04T15:00:17.474697"
+                "wind_direction": 324.0,
+                "wind_speed_avg": 2.8,
+                "last_update": "2026-05-04T23:20:50.458440"
             }
         }
     },
