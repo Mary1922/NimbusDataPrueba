@@ -3,6 +3,8 @@ from datetime import datetime
 from typing import Any
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
+from src.utils.config_manager import ConfigManager
+from src.processing.data_manager import DataManager
 
 class NimbusScheduler:
     """
@@ -10,15 +12,16 @@ class NimbusScheduler:
     Handles automated data ingestion cycles without blocking the UI.
     """
     def __init__(self, bridge: Any) -> None:
-        self.bridge = bridge
+        self.cm = ConfigManager()
+        self.dm = DataManager(self.cm)
         self.logger = logging.getLogger("Nimbus.Scheduler")
         
-        # BackgroundScheduler runs in a separate thread
+        # BackgroundScheduler runs in a separate thread (daemon)
         self.scheduler = BackgroundScheduler(daemon=True)
         self.job_id = 'nimbus_auto_sync_job'
         
-        # Initial interval from configuration
-        self.interval_minutes = self.bridge.dm.config.get("settings.interval_minutes", 30)
+        # Retrieve initial interval from configuration (defaulting to 30 min)
+        self.interval_minutes = self.dm.config.get("settings.interval_minutes", 30)
         
         # Job registration
         self.scheduler.add_job(
@@ -71,6 +74,7 @@ class NimbusScheduler:
                 # Calls the logic bridge to handle the API pull and persistence
                 self.bridge.ejecutar_ingesta_forzada(today_str, today_str, s_id)
             
-            self.logger.info("Cliclo de ingestión programado completado con éxito.")
+            self.logger.info("Ciclo de ingestión programado completado con éxito.")
+            
         except Exception as e:
             self.logger.error(f"Error durante la ejecución de la tarea programada: {e}")
