@@ -1,0 +1,48 @@
+{
+    "metadata": {
+        "last_update": "2026-05-04T15:30:33.538124",
+        "count": 5
+    },
+    "stations": {
+        "3126Y": {
+            "station_id": "3126Y",
+            "name": "MADRID, EL GOLOSO",
+            "province": "MADRID",
+            "latitude": "403341N",
+            "longitude": "034243W",
+            "altitude": "740"
+        },
+        "3129": {
+            "station_id": "3129",
+            "name": "MADRID AEROPUERTO",
+            "province": "MADRID",
+            "latitude": "402800N",
+            "longitude": "033320W",
+            "altitude": "609"
+        },
+        "3194U": {
+            "station_id": "3194U",
+            "name": "MADRID, CIUDAD UNIVERSITARIA",
+            "province": "MADRID",
+            "latitude": "402706N",
+            "longitude": "034327W",
+            "altitude": "664"
+        },
+        "3195": {
+            "station_id": "3195",
+            "name": "MADRID, RETIRO",
+            "province": "MADRID",
+            "latitude": "402442N",
+            "longitude": "034041W",
+            "altitude": "667"
+        },
+        "3196": {
+            "station_id": "3196",
+            "name": "MADRID, CUATRO VIENTOS",
+            "province": "MADRID",
+            "latitude": "402232N",
+            "longitude": "034710W",
+            "altitude": "690"
+        }
+    }
+}

@@ -251,7 +251,16 @@ class DataManager:
             self.logger.error(f"Error en sincronización de estaciones: {e}")
             return False
 
-    def get_active_station_ids(self) -> List[str]:
-        """Returns the IDs of currently active and filtered stations."""
+    def get_active_stations_info(self) -> Dict[str, Any]:
+        """
+        Returns the complete dictionary of active stations with their metadata.
+        Used for rendering detailed tables in the UI.
+        """
         data = json_handler.load_from_path(self.active_path) or {}
-        return list(data.get("stations", {}).keys())
+        return data.get("stations", {})
+
+    def get_active_station_ids(self) -> List[str]:
+        """
+        Maintains compatibility by returning only the ID list.
+        """
+        return list(self.get_active_stations_info().keys())

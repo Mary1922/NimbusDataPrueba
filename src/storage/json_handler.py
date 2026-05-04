@@ -1,34 +1,55 @@
 import json
 import os
+import logging
 
-def save_weather_data(new_data, file_path="data/history.json"):
+logger = logging.getLogger(__name__)
+
+# Funciones privadas
+
+def _read_json(path):
+    """Lee cualquier archivo JSON desde una ruta específica."""
+    if not os.path.exists(path):
+        logger.debug(f"El archivo no existe (esperado en primer inicio): {path}")
+        return None
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (json.JSONDecodeError, IOError) as e:
+        logger.error(f"Error crítico leyendo {path}: {e}")
+        return None
+
+def _write_json(path, data):
+    """Escribe datos en un JSON asegurando que los directorios existan."""
+    try:
+        # Crear toda la estructura de carpetas necesaria
+        directory = os.path.dirname(path)
+        if directory and not os.path.exists(directory):
+            os.makedirs(directory, exist_ok=True)
+            logger.info(f"Estructura de directorios creada: {directory}")
+            
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+        return True
+    except Exception as e:
+        logger.error(f"Error crítico escribiendo en {path}: {e}")
+        return False
+
+# Funciones públicas
+
+def load_config(filename="config.json"):
+    """Carga el archivo de configuración inicial de la raíz."""
+    return _read_json(filename)
+
+def load_from_path(path):
     """
-    Saves clean weather data to a JSON file without overwriting history.
-    Prevents duplicate entries based on 'date' and 'zone'.
+    Carga un JSON desde cualquier ruta dinámica proporcionada por los Managers.
+    Se usa para: catalog.json, active.json, history.json.
     """
-    historical_data = []
+    return _read_json(path)
 
-    # Ensure the data directory exists
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
-
-    # Step 1: Read the existing historical data
-    if os.path.exists(file_path):
-        with open(file_path, "r", encoding="utf-8") as file:
-            try:
-                historical_data = json.load(file)
-            except json.JSONDecodeError:
-                historical_data = []
-
-    # Step 2: Check for duplicates
-    for entry in historical_data:
-        if entry.get("zone") == new_data.get("zone") and entry.get("date") == new_data.get("date"):
-            print(f"⚠️ Duplicate detected for {new_data.get('zone')} on {new_data.get('date')}. Skipping.")
-            return False
-
-    # Step 3: Append and save
-    historical_data.append(new_data)
-    with open(file_path, "w", encoding="utf-8") as file:
-        json.dump(historical_data, file, indent=4, ensure_ascii=False)
-    
-    print(f"✅ Data safely saved for {new_data.get('zone')}.")
-    return True
+def save_to_path(data, path):
+    """
+    Guarda datos en cualquier ruta dinámica proporcionada por los Managers.
+    Se encarga de crear las carpetas /data/stations/ o /data/weather/ si no existen.
+    """
+    return _write_json(path, data)
