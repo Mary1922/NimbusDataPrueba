@@ -1,29 +1,24 @@
-import logging
-import requests
 import os
 import time
+import logging
+git import requests
 from dotenv import load_dotenv
-from src.logger import log_info, log_error, log_warning
-import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 load_dotenv()
 
 class AemetClient:
-
     def __init__(self):
         self.api_key = os.getenv("AEMET_API_KEY")
         self.base_url = "https://opendata.aemet.es/opendata/api"
         self.session = requests.Session()
 
-        # Headers obligatorios
         self.session.headers.update({
             "User-Agent": "NimbusData/1.0",
             "api_key": self.api_key
         })
         
-        # Configurar reintentos
         retry_strategy = Retry(
             total=3,
             backoff_factor=2,
@@ -32,96 +27,79 @@ class AemetClient:
         adapter = HTTPAdapter(max_retries=retry_strategy)
         self.session.mount("https://", adapter)
 
-    def get_weather(self, station_id, start_date, end_date):
+    @staticmethod
+    def _check_status(response, context):
+        """
+        Gestiona los códigos de estado obligatorios.
+        """
+        code = response.status_code
+        if code == 200:
+            return True
 
-        endpoint = f"/valores/climatologicos/diarios/datos/fechaini/{start_date}/fechafin/{end_date}/estacion/{station_id}"
+        messages = {
+            401: "No autorizado: API Key inválida.",
+            403: "Prohibido: Acceso denegado al recurso.",
+            404: "No encontrado: El endpoint o los datos no existen.",
+            429: "Rate Limit: Demasiadas peticiones.",
+            503: "Servicio no disponible: AEMET está en mantenimiento."
+        }
+        
+        msg = messages.get(code, f"Error inesperado ({code})")
+        logging.error(f"[{context}] {msg}")
+        return False
+    
+    def _execute_request(self, endpoint):
+        """
+        Gestiona el flujo completo de AEMET: 
+        Petición de URL -> Validación de estados -> Descarga de JSON final.
+        """
         url = f"{self.base_url}/{endpoint}"
-
+        
         try:
-                # 🔹 PRIMER REQUEST
-                start = time.time()
-                response = self.session.get(url, timeout=5)
-                latency = time.time() - start
+            # PASO 1: Obtener el enlace temporal de datos
+            start_t = time.time()
+            response = self.session.get(url, timeout=10)
+            latency = time.time() - start_t
 
-                log_info.info(f"STEP1 {url} - {response.status_code} - {latency:.2f}s")
+            logging.info(f"STEP1 {url} - {response.status_code} - {latency:.2f}s")
 
-                if response.status_code != 200:
-                    log_error.error(f"Error inicial: {response.status_code}")
-                    return None
-
-                data_url = response.json().get("datos")
-
-                if not data_url:
-                    log_error.error("No se encontró URL de datos")
-                    return None
-
-                # 🔹 SEGUNDO REQUEST
-                response_data = self.session.get(data_url, timeout=5)
-
-                log_info.info(f"STEP2 {data_url} - {response_data.status_code}")
-
-                if response_data.status_code == 200:
-                    return response_data.json()
-
-                elif response_data.status_code == 401:
-                    log_error.error("401 usuario no identificado")
-
-                elif response_data.status_code == 403:
-                    log_error.error("403 usuario sin permiso de acceso")
-
-                elif response_data.status_code == 404:
-                    log_error.error("404 en datos")
-
-                elif response_data.status_code == 429:
-                    log_error.error("429 rate limit")
-
+            if not self._check_status(response, f"STEP1: {endpoint}"):
                 return None
 
-        except Exception as e:
-            log_error.error(f"Error general: {e}")
+            res_json = response.json()
+            
+            # Validación del estado interno de AEMET
+            if res_json.get("estado") != 200:
+                logging.warning(f"AEMET (Interno {res_json.get('estado')}): "
+                                f"{res_json.get('descripcion')}")
+                return None
+
+            data_url = res_json.get("datos")
+            if not data_url:
+                logging.error(f"No se encontró 'datos_url' en la respuesta de {endpoint}")
+                return None
+
+            # PASO 2: Descargar el contenido real
+            response_data = self.session.get(data_url, timeout=15)
+            
+            if self._check_status(response_data, "STEP2: Descarga Final"):
+                return response_data.json()
+            
             return None
+
+        except requests.exceptions.RequestException as e:
+            logging.error(f"Error de red: {e}")
+            return None
+
+
+    def get_today_weather(self, station_id):
+        endpoint = f"observacion/convencional/datos/estacion/{station_id}"
+        return self._execute_request(endpoint)
+
+    def get_daily_weather(self, station_id, start_date, end_date):
+        endpoint = f"valores/climatologicos/diarios/datos/fechaini/{start_date}/fechafin/{end_date}/estacion/{station_id}"
+        return self._execute_request(endpoint)
         
     def get_stations(self): 
-
-        endpoint = "/valores/climatologicos/inventarioestaciones/todasestaciones"
-        url = f"{self.base_url}/{endpoint}"
-        
-        try:
-            response = self.session.get(url, timeout=5)
-
-            log_info.info(f"GET {url} - {response.status_code}")
-
-            if response.status_code != 200:
-                log_error.error(f"Error al obtener estaciones: {response.status_code}")
-                return None
-
-            data_url = response.json().get("datos")
-
-            if not data_url:
-                log_error.error("No se encontró URL de datos de estaciones")
-                return None
-
-            response_data = self.session.get(data_url, timeout=5)
-
-            log_info.info(f"GET {data_url} - {response_data.status_code}")
-
-            if response_data.status_code == 200:
-                return response_data.json()
-
-            elif response_data.status_code == 401:
-                log_error.error("401 usuario no identificado")
-
-            elif response_data.status_code == 403:
-                log_error.error("403 usuario sin permiso de acceso")
-
-            elif response_data.status_code == 404:
-                log_error.error("404 en datos de estaciones")
-
-            elif response_data.status_code == 429:
-                log_error.error("429 rate limit en datos de estaciones")
-
-            return None
-
-        except Exception as e:
-            log_error.error(f"Error general al obtener estaciones: {e}")
-            return None
+        endpoint = "valores/climatologicos/inventarioestaciones/todasestaciones"
+        return self._execute_request(endpoint)
