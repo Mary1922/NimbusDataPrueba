@@ -1,65 +1,81 @@
-from logger import config_logger
-
-# Inicializamos el logger para el equipo de desarrollo
-logger = config_logger()
+import logging
+from src.utils.config_manager import ConfigManager
 
 class AlertController:
-    def __init__(self, thresholds):
+    def __init__(self):
         """
-        Inyectamos la sección 'umbrales_alerta' del config.json.
+        Carga los umbrales desde el ConfigManager.
         """
-        self.thresholds = thresholds
+        config = ConfigManager().get_config()
+        self.thresholds = config.get("alert_thresholds", {})
+        self.logger = logging.getLogger(__name__)
 
-    def check_alerts(self,register):
+    def check_alerts(self, register):
         """
-        Función principal que coordina todas las revisiones.
+        Coordina las revisiones de temperatura y viento.
         """
+        if not self.thresholds:
+            self.logger.error("No se pudieron cargar los umbrales de alerta (alert_thresholds vacío).")
+            return [f"[Error]: Configuración de alertas no disponible."]
+
         alerts = []
         alerts.extend(self.check_temperature_alerts(register))
         alerts.extend(self.check_wind_alerts(register))
 
         if not alerts:
-            # Informamos de nivel verde si no hay ninguna alerta en la lista
-            return [f"[Nivel Verde]: Sin riesgo detectado en {register['nombre']}."]
+            # Informamos de nivel verde si no hay ninguna alerta
+            return [f"[Nivel Verde]: Sin riesgo detectado en {register.get('nombre', 'la estación')}."]
 
         return alerts
 
     def check_temperature_alerts(self, register):
         alerts = []
         try:
-            temp = float(register["temperatura"])
-            u = self.umbrales["temperatura"]
-            nombre = register["nombre"]
+            # Validación de datos de entrada
+            if "temp_avg" not in register or register["temp_avg"] is None:
+                return alerts
 
-            # Comprobaciones dinámicas usando los campos de tu config.json
+            temp = float(register["temp_avg"])
+            u = self.thresholds.get("temp_avg")
+            nombre = register.get("nombre", "Desconocida")
+
+            if not u: return alerts
+
+            # Comprobaciones de niveles (de mayor a menor gravedad)
             if temp >= u["red_max"]["value"]:
-                alerts.append(f"{u['red_max']['msg']} en {nombre} ({temp}°C)")
+                alerts.append(f"{u['red_max']['msg']} en {nombre} ({temp} °C)")
             elif temp <= u["red_min"]["value"]:
-                alerts.append(f"{u['red_min']['msg']} en {nombre} ({temp}°C)")
+                alerts.append(f"{u['red_min']['msg']} en {nombre} ({temp} °C)")
+            
             elif temp >= u["orange_max"]["value"]:
-                alerts.append(f"{u['orange_max']['msg']} en {nombre} ({temp}°C)")
+                alerts.append(f"{u['orange_max']['msg']} en {nombre} ({temp} °C)")
             elif temp <= u["orange_min"]["value"]:
-                alerts.append(f"{u['orange_min']['msg']} en {nombre} ({temp}°C)")
+                alerts.append(f"{u['orange_min']['msg']} en {nombre} ({temp} °C)")
+            
             elif temp >= u["yellow_max"]["value"]:
-                alerts.append(f"{u['yellow_max']['msg']} en {nombre} ({temp}°C)")
+                alerts.append(f"{u['yellow_max']['msg']} en {nombre} ({temp} °C)")
             elif temp <= u["yellow_min"]["value"]:
-                alerts.append(f"{u['yellow_min']['msg']} en {nombre} ({temp}°C)")
+                alerts.append(f"{u['yellow_min']['msg']} en {nombre} ({temp} °C)")
 
             if alerts:
-                logger.warning(f"Alertas de temperatura generadas: {alerts}")
+                self.logger.warning(f"Alertas de temperatura en {nombre}: {alerts}")
 
-        except (KeyError, ValueError) as e:
-            # Si falta un dato o no es un número, el logger nos avisa sin romper el programa
-            logger.error(f"Error procesando temperatura en {register.get('nombre', 'Estación desconocida')}: {e}")
+        except (KeyError, ValueError, TypeError) as e:
+            self.logger.error(f"Error procesando temperatura en {register.get('nombre')}: {e}")
 
         return alerts
 
     def check_wind_alerts(self, register):
         alerts = []
         try:
-            wind = float(register["viento"])
-            u = self.umbrales["viento"]
-            nombre = register["nombre"]
+            if "wind_speed_avg" not in register or register["wind_speed_avg"] is None:
+                return alerts
+
+            wind = float(register["wind_speed_avg"])
+            u = self.thresholds.get("wind_speed_avg") # Corregido: antes decía self.umbrales
+            nombre = register.get("nombre", "Desconocida")
+
+            if not u: return alerts
 
             if wind >= u["red"]["value"]:
                 alerts.append(f"{u['red']['msg']} en {nombre} ({wind} km/h)")
@@ -69,9 +85,36 @@ class AlertController:
                 alerts.append(f"{u['yellow']['msg']} en {nombre} ({wind} km/h)")
 
             if alerts:
-                logger.warning(f"Alertas de viento generadas: {alerts}")
+                self.logger.warning(f"Alertas de viento en {nombre}: {alerts}")
 
-        except (KeyError, ValueError) as e:
-            logger.error(f"Error procesando viento en {register.get('nombre', 'Estación desconocida')}: {e}")
+        except (KeyError, ValueError, TypeError) as e:
+            self.logger.error(f"Error procesando viento en {register.get('nombre')}: {e}")
 
         return alerts
+
+    def get_color_for_temp(self, temp):
+        if temp is None or temp == "" or temp == "--": return None
+        try:
+            val = float(temp)
+            # Intentamos obtener los umbrales buscando varias claves posibles
+            u = self.thresholds.get("temperature") or self.thresholds.get("temp_avg")
+            if not u: return None
+
+            if val >= u["red_max"]["value"] or val <= u["red_min"]["value"]: return "#F85149"
+            if val >= u["orange_max"]["value"] or val <= u["orange_min"]["value"]: return "#F0883E"
+            if val >= u["yellow_max"]["value"] or val <= u["yellow_min"]["value"]: return "#F1C40F"
+        except: pass
+        return None
+
+    def get_color_for_wind(self, wind):
+        if wind is None or wind == "" or wind == "--": return None
+        try:
+            val = float(wind)
+            u = self.thresholds.get("wind") or self.thresholds.get("wind_speed_avg")
+            if not u: return None
+
+            if val >= u["red"]["value"]: return "#F85149"
+            if val >= u["orange"]["value"]: return "#F0883E"
+            if val >= u["yellow"]["value"]: return "#F1C40F"
+        except: pass
+        return None
