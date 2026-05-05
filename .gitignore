@@ -28,7 +28,7 @@ Thumbs.db
 *.bak
 *.tmp
 *.swp.venv/
-*.logs
+*.log
 
 # --- DATA ---
 data/*
