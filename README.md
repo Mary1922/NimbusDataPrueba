@@ -132,6 +132,7 @@ Nimbus utiliza una estrategia de almacenamiento eficiente basada en la naturalez
 El motor de alertas sigue los niveles de aviso oficiales:
 
 * **Escala de Alertas por Temperatura**
+
 El sistema monitoriza tanto los extremos de calor como los de frío para proteger la salud pública y la infraestructura.
 
 | Nivel de Riesgo | Color | Rango Máximas (Calor) | Rango Mínimas (Frío) | Mensaje Operativo |
@@ -141,6 +142,7 @@ El sistema monitoriza tanto los extremos de calor como los de frío para protege
 | **Precaución** | Amarillo | **36.0 a 39.0 °C** | **-6.0 a -4.0 °C** | Precaución. Posibilidad de hielo/calor. |
 
 * **Escala de Alertas por Viento**
+  
 Los umbrales de viento están diseñados para la gestión de la seguridad en parques, vía pública y elementos en altura.
 
 | Nivel de Riesgo | Color | Velocidad Viento | Acción / Mensaje Operativo |
@@ -174,7 +176,22 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Ejecutar la aplicación:
+4. Configuracón del archivo de entorno `.env`:
+
+  * Solicitar la clave de acceso en  [AEMET OpenData](https://opendata.aemet.es/centrodedescargas/inicio).
+ 
+  * En la raíz del proyecto, crear un archivo `.env`:
+
+    ```bash
+    touch .env
+    ```
+  * Abrir el archivo y añadir la clave con el siguiente formato:
+  
+    ```text
+    AEMET_API_KEY="tu_api_key_aqui_entre_comillas"
+    ```
+
+5. Ejecutar la aplicación:
 
 ```bash
 python -m src.main
