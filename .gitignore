@@ -1,5 +1,6 @@
 # --- ENTORNOS VIRTUALES ---
 venv/
+.venv/
 env/
 ENV/
 .env/
@@ -27,3 +28,8 @@ Thumbs.db
 *.bak
 *.tmp
 *.swp.venv/
+*.logs
+
+# --- DATA ---
+data/*
+!data/.gitkeep
