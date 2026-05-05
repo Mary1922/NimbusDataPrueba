@@ -5,6 +5,7 @@ import requests
 from dotenv import load_dotenv
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from src.utils.logger import log_info, log_error, log_warning 
 
 load_dotenv()
 
@@ -45,7 +46,7 @@ class AemetClient:
         }
         
         msg = messages.get(code, f"Error inesperado ({code})")
-        log_error.error(f"[{context}] {msg}")
+        log_error(f"[{context}] {msg}")
         return False
     
     def _execute_request(self, endpoint):
@@ -61,7 +62,7 @@ class AemetClient:
             response = self.session.get(url, timeout=10)
             latency = time.time() - start_t
 
-            log_info.info(f"STEP1 {url} - {response.status_code} - {latency:.2f}s")
+            log_info(f"STEP1 {url} - {response.status_code} - {latency:.2f}s")
 
             if not self._check_status(response, f"STEP1: {endpoint}"):
                 return None
@@ -70,13 +71,13 @@ class AemetClient:
             
             # Validación del estado interno de AEMET
             if res_json.get("estado") != 200:
-                log_warning.warning(f"AEMET (Interno {res_json.get('estado')}): "
+                log_warning(f"AEMET (Interno {res_json.get('estado')}): "
                                 f"{res_json.get('descripcion')}")
                 return None
 
             data_url = res_json.get("datos")
             if not data_url:
-                log_error.error(f"No se encontró 'datos_url' en la respuesta de {endpoint}")
+                log_error(f"No se encontró 'datos_url' en la respuesta de {endpoint}")
                 return None
 
             # PASO 2: Descargar el contenido real
@@ -88,7 +89,7 @@ class AemetClient:
             return None
 
         except requests.exceptions.RequestException as e:
-            log_error.error(f"Error de red: {e}")
+            log_error(f"Error de red: {e}")
             return None
 
 

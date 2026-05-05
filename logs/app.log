@@ -1,0 +1,3 @@
+2026-05-04 23:20:40,194 - INFO - nimbus_logger - STEP1 https://opendata.aemet.es/opendata/api/valores/climatologicos/diarios/datos/fechaini/2026-05-03T00:00:00UTC/fechafin/2026-05-03T00:00:00UTC/estacion/3126Y - 200 - 0.09s
+2026-05-04 23:20:40,195 - WARNING - nimbus_logger - AEMET (Interno 404): No hay datos que satisfagan esos criterios
+2026-05-04 23:20:50,372 - INFO - nimbus_logger - STEP1 https://opendata.aemet.es/opendata/api/observacion/convencional/datos/estacion/3126Y - 200 - 10.18s
