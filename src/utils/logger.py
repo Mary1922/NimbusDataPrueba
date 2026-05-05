@@ -22,13 +22,18 @@ def config_logger(name="nimbus_logger", log_file="logs/app.log", level=logging.I
      # 5. Handlers
     file_handler = logging.FileHandler(log_file)
     file_handler.setFormatter(formatter)
+    file_handler.setLevel(logging.DEBUG)
 
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(formatter)
+    console_handler.setLevel(logging.ERROR)
 
     # 6. Add handlers
     logger.addHandler(file_handler)
     logger.addHandler(console_handler)
+
+    # Silence noisy external loggers
+    logging.getLogger("urllib3").setLevel(logging.WARNING)
 
     return logger
 

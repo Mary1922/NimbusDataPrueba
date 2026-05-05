@@ -4,75 +4,102 @@ import logging
 import platform
 import subprocess
 from datetime import datetime
+from tabulate import tabulate
 
-# Configuracion basica de logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-
+from src.utils.logger import config_logger
 from src.utils.config_manager import ConfigManager
 from src.processing.data_manager import DataManager
 from src.storage import json_handler
+from src.utils.alerts import AlertController
 from src.utils.scheduler import NimbusScheduler
 
+# CONFIGURATION
+RESET = "\033[0m"
 
-# Funciones de validación de fechas
+# ANSI Mapping for Alert Colors
+HEX_TO_ANSI = {
+    "#F85149": "\033[91m", # Red (Alert/KO)
+    "#F0883E": "\033[93m", # Orange
+    "#F1C40F": "\033[33m", # Yellow
+    "GREEN":   "\033[92m", # Green (OK)
+    "BLUE":    "\033[94m"  # Blue (New Record)
+}
 
-def solicitar_fecha_inicio(hoy_str: str, hoy_dt: datetime) -> datetime:
-    """Solicita y valida que la fecha de inicio no sea futura y tenga formato correcto."""
+# DATE VALIDATION
+
+def request_start_date(today_str: str, today_dt: datetime) -> datetime:
+    """Requests and validates the start date (cannot be in the future)."""
     while True:
-        entrada = input(f"Fecha Inicio (YYYY-MM-DD) [[Enter] hoy: {hoy_str}]: ").strip() or hoy_str
+        entry = input(f"Fecha Inicio (YYYY-MM-DD) [[Enter] hoy: {today_str}]: ").strip() or today_str
         try:
-            fecha_dt = datetime.strptime(entrada, "%Y-%m-%d")
-            if fecha_dt > hoy_dt:
+            date_dt = datetime.strptime(entry, "%Y-%m-%d")
+            if date_dt > today_dt:
                 print(f"[!] Error: La fecha de inicio no puede ser futura.")
                 continue
-            return fecha_dt
+            return date_dt
         except ValueError:
             print("[!] Error: Formato incorrecto. Use YYYY-MM-DD (ej: 2024-03-15).")
 
-def solicitar_fecha_fin(inicio_dt: datetime, hoy_dt: datetime, hoy_str: str) -> datetime:
-    """Solicita y valida que la fecha fin no sea futura y sea igual o posterior al inicio."""
+def request_end_date(start_dt: datetime, today_dt: datetime, today_str: str) -> datetime:
+    """Requests and validates the end date (must be >= start and <= today)."""
     while True:
-        entrada = input(f"Fecha Fin    (YYYY-MM-DD) [[Enter] hoy: {hoy_str}]: ").strip() or hoy_str
+        entry = input(f"Fecha Fin    (YYYY-MM-DD) [[Enter] hoy: {today_str}]: ").strip() or today_str
         try:
-            fecha_dt = datetime.strptime(entrada, "%Y-%m-%d")
-            if fecha_dt > hoy_dt:
+            date_dt = datetime.strptime(entry, "%Y-%m-%d")
+            if date_dt > today_dt:
                 print(f"[!] Error: La fecha fin no puede ser futura.")
                 continue
-            if fecha_dt < inicio_dt:
-                print(f"[!] Error: La fecha fin debe ser igual o posterior a la fecha de inicio ({inicio_dt.strftime('%Y-%m-%d')}).")
+            if date_dt < start_dt:
+                print(f"[!] Error: La fecha fin debe ser igual o posterior a la fecha de inicio ({start_dt.strftime('%Y-%m-%d')}).")
                 continue
-            return fecha_dt
+            return date_dt
         except ValueError:
             print("[!] Error: Formato incorrecto. Use YYYY-MM-DD.")
 
-# Funciones de interfaz
+# INTERFACE UTILS
 
-def limpiar_pantalla():
+def clear_screen():
+    """
+    Clears the terminal console based on the operating system.
+    """
     try:
         print("\033[H\033[2J", end="", flush=True)
-        es_windows = platform.system() == "Windows"
-        comando = "cls" if es_windows else "clear"
-        subprocess.run(comando, shell=es_windows, check=True)
+        is_windows = platform.system() == "Windows"
+        cmd = "cls" if is_windows else "clear"
+        subprocess.run(cmd, shell=is_windows, check=True)
     except Exception:
         print("\033[H\033[2J", end="")
 
-def menu_principal():
+def main_menu():
+    """
+    Displays the primary Nimbus Data navigation menu.
+    
+    Returns:
+        str: The user's menu selection.
+    """
     print("\n" + "="*50)
-    print("NIMBUS DATA")
+    print("                   NIMBUS DATA")
     print("="*50)
-    print("[1] Ingesta Automática (AEMET)")
-    print("[2] Ver Historico de Datos")
-    print("[3] Comparativa de fuentes")
-    print("[4] Configurar Scheduler")
-    print("[5] Gestión de Estaciones")
-    print("[X] Salir")
+    print("        [1] Ingesta Automática (AEMET)")
+    print("        [2] Ver Historico de Datos")
+    print("        [3] Comparativa de fuentes")
+    print("        [4] Configurar Scheduler")
+    print("        [5] Gestión de Estaciones")
+    print("        [X] Salir")
     print("\n(Ctrl+C para Salir del programa)")
     return input("Selecciona una opción: ").strip()
 
-def seleccionar_estaciones(data_manager, active=True):
+def select_stations(data_manager, active=True):
+    """
+    Lists available stations and allows the user to select one or all.
+    
+    Args:
+        data_manager (DataManager): The instance managing station files.
+        active (bool): If True, loads only active stations; else loads the full catalog.
+        
+    Returns:
+        list: A list of tuples (station_id, station_name). Returns None if no stations found.
+    """
     path = data_manager.active_path if active else data_manager.catalog_path
     if not os.path.exists(path):
         data_manager.sync_stations()
@@ -102,46 +129,56 @@ def seleccionar_estaciones(data_manager, active=True):
         except (ValueError, IndexError):
             print("[!] Selección no válida.")
 
-# Lógica de opciones
+# OPTION LOGIC
 
-def opcion_ingesta_automatica(data_manager):
+def option_automatic_ingestion(data_manager, alerts):
+    """
+    Handles the manual triggering of API downloads for specific dates and stations.
+    """
     while True:
         try:
+            clear_screen()
             print("\n" + "="*70)
-            print("--- [1] INGESTA MANUAL (Sincronización API AEMET) ---")
+            print("--- [1] INGESTA AUTOMÁTICA (Sincronización API AEMET) ---")
             print("="*70)
 
-            target_stations = seleccionar_estaciones(data_manager)
+            target_stations = select_stations(data_manager)
             if not target_stations: break
 
-            hoy_dt = datetime.now()
-            hoy_str = hoy_dt.strftime("%Y-%m-%d")
+            today_dt = datetime.now()
+            today_str = today_dt.strftime("%Y-%m-%d")
             
-            dt_ini = solicitar_fecha_inicio(hoy_str, hoy_dt)
-            dt_fin = solicitar_fecha_fin(dt_ini, hoy_dt, hoy_str)
+            dt_ini = request_start_date(today_str, today_dt)
+            dt_fin = request_end_date(dt_ini, today_dt, today_str)
             start, end = dt_ini.strftime("%Y-%m-%d"), dt_fin.strftime("%Y-%m-%d")
 
             for s_id, s_name in target_stations:
                 print(f"\n[API] Descargando: {s_name} ({s_id})...")
-                nuevos = data_manager.force_api_ingest(start, end, s_id)
+                # Invoke method to fetch and persist data
+                new_records = data_manager.force_api_ingest(start, end, s_id)
 
-                if nuevos:
-                    # Definición de cabecera y separador dinámico
-                    header = f"| {'FECHA':^12} | {'TEMPERATURA (C)':^19} | {'HUMEDAD (%)':^12} | {'VELOCIDAD (km/h)':^18} |"
-                    separator = "-" * len(header)
-                    print(separator)
-                    print(header)
-                    print(separator)
-
-                    for r in nuevos:
-                        # Acceso a atributos del objeto WeatherRecord
-                        f_clean = r.date.split('T')[0] if r.date else "--"
-                        t = f"{r.temp_avg:.1f}" if r.temp_avg is not None else "--"
-                        h = f"{r.humidity_avg}" if r.humidity_avg is not None else "--"
-                        v = f"{r.wind_speed_avg:.1f}" if r.wind_speed_avg is not None else "--"
+                if new_records:
+                    table_data = []
+                    headers = ["FECHA", "TEMPERATURA (°C)", "HUMEDAD (%)", "VIENTO (km/h)"]
+                    
+                    for r in new_records:
+                        # Retrieve ANSI color codes from AlertController
+                        c_t = HEX_TO_ANSI.get(alerts.get_color_for_temp(r.temp_avg), "")
+                        c_v = HEX_TO_ANSI.get(alerts.get_color_for_wind(r.wind_speed_avg), "")
                         
-                        print(f"| {f_clean:^12} | {t:^19} | {h:^12} | {v:^18} |")
-                    print(separator)
+                        # Format values
+                        f_clean = r.date.split('T')[0] if r.date else "--"
+                        
+                        # Apply color + value + RESET
+                        t_str = f"{c_t}{r.temp_avg:.1f}{RESET}" if r.temp_avg is not None else "--"
+                        h_str = f"{r.humidity_avg}" if r.humidity_avg is not None else "--"
+                        v_str = f"{c_v}{r.wind_speed_avg:.1f}{RESET}" if r.wind_speed_avg is not None else "--"
+                        
+                        table_data.append([f_clean, t_str, h_str, v_str])
+                    
+                    # Render table using tabulate
+                    print(f"\nRESULTADOS: {s_name.upper()}")
+                    print(tabulate(table_data, headers=headers, tablefmt="grid", stralign="center"))
                 else:
                     print(f"[!] No se recibieron datos para {s_name}.")
 
@@ -151,20 +188,23 @@ def opcion_ingesta_automatica(data_manager):
         except KeyboardInterrupt: 
             break
 
-def opcion_ver_historico(data_manager):
+def option_view_history(data_manager, alerts):
+    """
+    Fetches and displays historical weather data stored locally in JSON files.
+    """
     while True:
         try:
-            limpiar_pantalla()
+            clear_screen()
             print("\n--- [2] CONSULTA DE HISTÓRICO ---")
-            target_stations = seleccionar_estaciones(data_manager)
+            target_stations = select_stations(data_manager)
             if not target_stations: return 
 
-            hoy_dt = datetime.now()
-            hoy_str = hoy_dt.strftime("%Y-%m-%d")
+            today_dt = datetime.now()
+            today_str = today_dt.strftime("%Y-%m-%d")
 
             # Validation
-            dt_ini = solicitar_fecha_inicio(hoy_str, hoy_dt)
-            dt_fin = solicitar_fecha_fin(dt_ini, hoy_dt, hoy_str)
+            dt_ini = request_start_date(today_str, today_dt)
+            dt_fin = request_end_date(dt_ini, today_dt, today_str)
             
             start, end = dt_ini.strftime("%Y-%m-%d"), dt_fin.strftime("%Y-%m-%d")
 
@@ -172,91 +212,164 @@ def opcion_ver_historico(data_manager):
                 records = data_manager.get_weather(start, end, s_id)
                 if records:
                     print(f"\nESTACIÓN: {s_name.upper()}\n")
-                    header = f"| {'FECHA':^12} | {'TEMPERATURA (C)':^19} | {'HUMEMDAD (%)':^12} | {'VELOCIDAD (km/h)':^18} |"
-                    separator = "-" * len(header)
-                    print(separator) 
-                    print(header)
-                    print(separator) 
+                    
+                    tabla_datos = []
+                    headers = ["FECHA", "TEMPERATURA (°C)", "HUMEDAD (%)", "VELOCIDAD (km/h)"]
+
                     for r in records:
-                        print(f"| {r.get('date','--').split('T')[0]:^12} | "
-                            f"{str(r.get('temp_avg','--')):^19} | "
-                            f"{str(r.get('humidity_avg','--')):^12} | "
-                            f"{str(r.get('wind_speed_avg','--')):^18} | "
-                        )
-                    print(separator)
+                        # 1. Get alert color mappings
+                        color_t = HEX_TO_ANSI.get(alerts.get_color_for_temp(r.get('temp_avg')), "")
+                        color_w = HEX_TO_ANSI.get(alerts.get_color_for_wind(r.get('wind_speed_avg')), "")
+
+                        # Formatear valores
+                        t_raw = r.get('temp_avg')
+                        t_str = f"{color_t}{t_raw:.1f}{RESET}" if t_raw is not None else "--"
+                        
+                        w_raw = r.get('wind_speed_avg')
+                        w_str = f"{color_w}{w_raw:.1f}{RESET}" if w_raw is not None else "--"
+                        
+                        h_str = r.get('humidity_avg', "--")
+                        f_str = r.get('date', '--')[:10]
+
+                        tabla_datos.append([f_str, t_str, h_str, w_str])
+
+                    print(tabulate(tabla_datos, headers=headers, tablefmt="grid", stralign="center"))
+                else:
+                    print(f"\n[!] No hay registros para {s_name}.")
             
             if input("\n¿Quieres hacer otra consulta? (s/n): ").lower() != 's': break
         
         except KeyboardInterrupt:
             break
 
-def opcion_comparativa_discrepancias(data_manager):
+def option_comparison_discrepancies(data_manager, alerts):
+    """
+    Compares local JSON data against fresh API data to identify missing entries or value mismatches.
+    Uses a dynamic double-header table for better visualization.
+    """
     while True:
         try:
-            limpiar_pantalla()
-            print("\n--- [3] COMPARATIVA Y DISCREPANCIAS ---")
-            resultado = seleccionar_estaciones(data_manager)
-            if not resultado: break 
-            
-            s_id, s_name = resultado[0]
-            hoy_dt = datetime.now()
-            hoy_str = hoy_dt.strftime("%Y-%m-%d")
+            clear_screen()
+            print("\n" + "="*80)
+            print("--- [3] COMPARATIVA Y DISCREPANCIAS (Local vs API) ---")
+            print("="*80)
 
-            # Validation
-            dt_ini = solicitar_fecha_inicio(hoy_str, hoy_dt)
-            dt_fin = solicitar_fecha_fin(dt_ini, hoy_dt, hoy_str)
+            result = select_stations(data_manager)
+            if not result: break 
             
+            s_id, s_name = result[0]
+            today_dt = datetime.now()
+            today_str = today_dt.strftime("%Y-%m-%d")
+
+            dt_ini = request_start_date(today_str, today_dt)
+            dt_fin = request_end_date(dt_ini, today_dt, today_str)
             start, end = dt_ini.strftime("%Y-%m-%d"), dt_fin.strftime("%Y-%m-%d")
 
-            # Obtención de datos
+            # Data retrieval and cross-referencing
             local_h = data_manager.get_records_from_json(start, end, s_id)
             records_json = {r['date'].split('T')[0]: r for r in local_h}
+            
             api_h = data_manager.force_api_ingest(start, end, s_id)
             records_api = {r.date.split('T')[0]: r for r in api_h}
 
-            todas_las_fechas = sorted(set(records_json.keys()) | set(records_api.keys()))
-
-            w_fecha, w_sub, w_status = 12, 8, 18
-            w_main = (w_sub * 2) + 3 
-            header_l1 = (f"{'':^{w_fecha}} | {'TEMPERATURA':^{w_main}} | "
-                        f"{'HUMEDAD':^{w_main}} | {'VIENTO':^{w_main}} | {'ESTADO':^{w_status}}")
-            header_l2 = (f"{'FECHA':^{w_fecha}} | {'JSON':^{w_sub}} | {'API':^{w_sub}} | "
-                        f"{'JSON':^{w_sub}} | {'API':^{w_sub}} | "
-                        f"{'JSON':^{w_sub}} | {'API':^{w_sub}} | {'':^{w_status}}")
-
-            print("\n" + header_l1 + "\n" + header_l2 + "\n" + "-" * len(header_l2))
+            all_dates = sorted(set(records_json.keys()) | set(records_api.keys()))
 
             def fmt(val):
                 if val is None or val == '--': return "--"
                 try: return f"{float(val):.1f}"
                 except: return "--"
 
-            for f in todas_las_fechas:
-                rj, ra = records_json.get(f, {}), records_api.get(f)
-                tj, hj, vj = fmt(rj.get('temp_avg')), fmt(rj.get('humidity_avg')), fmt(rj.get('wind_speed_avg'))
-                ta, ha, va = fmt(getattr(ra, 'temp_avg', None)), fmt(getattr(ra, 'humidity_avg', None)), fmt(getattr(ra, 'wind_speed_avg', None))
+            table_rows = []
+            sub_headers = ["FECHA", "JSON", "API", "JSON", "API", "JSON", "API", "ESTADO"]
 
-                status = "OK"
-                json_vacio, api_vacia = all(v=="--" for v in [tj,hj,vj]), all(v=="--" for v in [ta,ha,va])
+            # Row construction and color logic
+            for f in all_dates:
+                rj = records_json.get(f, {})
+                ra = records_api.get(f)
                 
-                if json_vacio and api_vacia: status = "--"
-                elif not json_vacio and api_vacia: status = "--"
-                elif json_vacio and not api_vacia: status = "NUEVO REGISTRO"
+                tj, ta = fmt(rj.get('temp_avg')), fmt(getattr(ra, 'temp_avg', None))
+                hj, ha = fmt(rj.get('humidity_avg')), fmt(getattr(ra, 'humidity_avg', None))
+                vj, va = fmt(rj.get('wind_speed_avg')), fmt(getattr(ra, 'wind_speed_avg', None))
+
+                json_vacio = all(v == "--" for v in [tj, hj, vj])
+                api_vacia = all(v == "--" for v in [ta, ha, va])
+                
+                if json_vacio and api_vacia:
+                    status = "--"
+                elif json_vacio and not api_vacia:
+                    status = f"{HEX_TO_ANSI['BLUE']}NUEVO{RESET}"
                 else:
-                    if any(abs(float(v1)-float(v2)) > 0.01 for v1, v2 in [(tj,ta),(hj,ha),(vj,va)] if v1!="--" and v2!="--"):
-                        status = "KO"
+                    diff = False
+                    for v1, v2 in [(tj, ta), (hj, ha), (vj, va)]:
+                        if v1 != "--" and v2 != "--":
+                            if abs(float(v1) - float(v2)) > 0.01:
+                                diff = True
+                                break
+                    
+                    status = f"{HEX_TO_ANSI['#F85149']}KO{RESET}" if diff else f"{HEX_TO_ANSI['GREEN']}OK{RESET}"
 
-                print(f"{f:^{w_fecha}} | {tj:^{w_sub}} | {ta:^{w_sub}} | {hj:^{w_sub}} | {ha:^{w_sub}} | {vj:^{w_sub}} | {va:^{w_sub}} | {status:^{w_status}}")
+                table_rows.append([f, tj, ta, hj, ha, vj, va, status])
 
-            if input("\n¿Quieres hacer otra comparación? (s/n): ").lower() != 's': break
+            # Double Header Rendering
+            if table_rows:
+                # Generate the base table with tabulate to retrieve the layout structure
+                base_table = tabulate(table_rows, headers=sub_headers, tablefmt="grid", stralign="center")
+                lines = base_table.split("\n")
+                
+                parts = lines[1].split('|')
+                
+                def get_width(indices):
+                    # Sum the widths of the specified columns plus internal '|' separators
+                    return sum(len(parts[i]) for i in indices) + (len(indices) - 1)
+
+                w_fec  = len(parts[1])
+                w_temp = get_width([2, 3])
+                w_hum  = get_width([4, 5])
+                w_wind = get_width([6, 7])
+                w_stat = len(parts[8])
+
+                # Manually build the super-header row
+                super_header = (
+                    f"|{ ' ' * w_fec }|"
+                    f"{'TEMPERATURA (°C)':^{w_temp}}|"
+                    f"{'HUMEDAD (%)':^{w_hum}}|"
+                    f"{'VIENTO (km/h)':^{w_wind}}|"
+                    f"{ ' ' * w_stat }|"
+                )
+
+                print(f"\nESTACIÓN: {s_name.upper()} ({s_id})")
+                print(lines[0])         
+                print(super_header)       
+                print(base_table)         
+            else:
+                print(f"\n[!] No hay datos para comparar en el rango {start} a {end}.")
+
+            if input("\n¿Desea realizar otra comparación? (s/n): ").lower() != 's': 
+                break
         
         except KeyboardInterrupt:
             break
+        except Exception as e:
+            print(f"\n[ERROR] Ocurrió un fallo en la comparativa: {e}")
+            break
 
-def opcion_gestion_estaciones(data_manager):
+def option_station_management(data_manager):
+    """
+    Provides a submenu for managing meteorological stations within the system.
+
+    This function allows the user to:
+    1. View technical details (ID, Name, Coordinates, Altitude) of stations 
+       currently marked as active in the local configuration.
+    2. Synchronize the local station catalog with the official AEMET API to 
+       ensure the metadata is up to date.
+
+    Args:
+        data_manager (DataManager): The instance responsible for handling station 
+                                    metadata and API synchronization logic.
+    """
     while True:
         try:
-            limpiar_pantalla()
+            clear_screen()
             print("\n" + "="*95)
             print("--- [5] GESTIÓN DE ESTACIONES ---")
             print("="*95)
@@ -268,11 +381,11 @@ def opcion_gestion_estaciones(data_manager):
             sub = input("\nSelecciona una opción: ").strip().upper()
 
             if sub == "1":
-                print("\n[ESTACIONES ACTIVAS - DETALLES]")
+                print("\n[ESTACIONES ACTIVAS - DETALLES TÉCNICOS]")
                 estaciones = data_manager.get_active_stations_info()
                 
                 if estaciones:
-                    # Configuración de la tabla
+                    # Table configuration
                     header = f"| {'ID':^8} | {'NOMBRE':^25} | {'LATITUD':^12} | {'LONGITUD':^12} | {'ALTITUD (m)':^14} |"
                     sep = "-" * len(header)
                     
@@ -313,85 +426,105 @@ def opcion_gestion_estaciones(data_manager):
         except KeyboardInterrupt:
             break
 
-def opcion_configurar_scheduler(scheduler):
+def option_configure_scheduler(scheduler):
+    """
+    Interface to manage the background automated data ingestion tasks.
+
+    Displays the current status of the scheduler (Running/Stopped) and the 
+    defined execution interval. Allows the user to start/stop the service 
+    or modify the frequency of API checks.
+
+    Args:
+        scheduler (NimbusScheduler): The scheduler instance managing the 
+                                     background threads and APScheduler logic.
+    """
     while True:
-        limpiar_pantalla()
-        # Verifica si hay trabajos programados para determinar el estado
-        esta_corriendo = scheduler.scheduler.running
-        estado = "EJECUTÁNDOSE" if esta_corriendo else "PARADO"
-        
-        print("\n" + "="*60)
-        print(f"--- [4] PLANIFICADOR DE INGESTA AUTOMÁTICA ---")
-        print("="*60)
-        print(f" ESTADO:    [{estado}]")
-        print(f" INTERVALO: Cada {scheduler.interval_minutes} minutos")
-        print("-" * 60)
-        print("[1] Iniciar Scheduler (Segundo plano)")
-        print("[2] Detener Scheduler")
-        print("[3] Cambiar intervalo de tiempo")
-        print("[X] Volver al menú principal")
-        print("-" * 60)
+        try:
+            clear_screen()
+            # Check for scheduled jobs to determine current status
+            esta_corriendo = scheduler.scheduler.running
+            state = "EJECUTÁNDOSE" if esta_corriendo else "PARADO"
+            
+            print("\n" + "="*60)
+            print(f"--- [4] PLANIFICADOR DE INGESTA AUTOMÁTICA ---")
+            print("="*60)
+            print(f" ESTADO:    [{state}]")
+            print(f" INTERVALO: Cada {scheduler.interval_minutes} minutos")
+            print("-" * 60)
+            print("[1] Iniciar Scheduler (Segundo plano)")
+            print("[2] Detener Scheduler")
+            print("[3] Cambiar intervalo de tiempo")
+            print("[X] Volver al menú principal")
+            print("-" * 60)
 
-        opc = input("\nSeleccione una opción: ").strip().upper()
+            opc = input("\nSeleccione una opción: ").strip().upper()
 
-        if opc == "1":
-            if not scheduler.scheduler.running:
-                scheduler.start()
-                print("[OK] El planificador se ha iniciado.")
-            else:
-                print("[!] El planificador ya está en marcha.")
-            input("Presione Enter para continuar...")
-
-        elif opc == "2":
-            if scheduler.scheduler.running:
-                scheduler.stop()
-                print("[OK] El planificador se ha detenido.")
-                # Re-instancia si APScheduler no permite reiniciar tras shutdown
-            else:
-                print("[!] El planificador ya está parado.")
-            input("Presione Enter para continuar...")
-
-        elif opc == "3":
-            try:
-                minutos = int(input("\nNuevo intervalo (minutos): "))
-                if minutos < 1:
-                    print("[!] El intervalo debe ser de al menos 1 minuto.")
+            if opc == "1":
+                if not scheduler.scheduler.running:
+                    scheduler.start()
+                    print("[OK] El planificador se ha iniciado.")
                 else:
-                    scheduler.update_interval(minutos)
-                    print(f"[OK] Intervalo actualizado a {minutos} min.")
-            except ValueError:
-                print("[!] Error: Ingrese un número válido.")
-            input("Presione Enter para continuar...")
+                    print("[!] El planificador ya está en marcha.")
+                input("Presione Enter para continuar...")
 
-        elif opc == "X":
+            elif opc == "2":
+                if scheduler.scheduler.running:
+                    scheduler.stop()
+                    print("[OK] El planificador se ha detenido.")
+                    # Re-instantiate if APScheduler does not allow restarting after shutdown
+                else:
+                    print("[!] El planificador ya está parado.")
+                input("Presione Enter para continuar...")
+
+            elif opc == "3":
+                try:
+                    minutos = int(input("\nNuevo intervalo (minutos): "))
+                    if minutos < 1:
+                        print("[!] El intervalo debe ser de al menos 1 minuto.")
+                    else:
+                        scheduler.update_interval(minutos)
+                        print(f"[OK] Intervalo actualizado a {minutos} min.")
+                except ValueError:
+                    print("[!] Error: Ingrese un número válido.")
+                input("Presione Enter para continuar...")
+
+            elif opc == "X":
+                break
+        
+        except KeyboardInterrupt:
             break
 
 def main():
+    config_logger()
+    logger = logging.getLogger(__name__)
+    logger.info("Iniciando Nimbus Data")
+
     config = ConfigManager()
     data_manager = DataManager(config)
     scheduler = NimbusScheduler(data_manager)
+    alerts = AlertController()
 
     while True:
         try:
-            limpiar_pantalla()
-            choice = menu_principal()
+            clear_screen()
+            choice = main_menu()
             if choice == "1": 
-                limpiar_pantalla()
-                opcion_ingesta_automatica(data_manager)
+                clear_screen()
+                option_automatic_ingestion(data_manager, alerts)
             elif choice == "2": 
-                limpiar_pantalla()
-                opcion_ver_historico(data_manager)
+                clear_screen()
+                option_view_history(data_manager, alerts)
             elif choice == "3": 
-                limpiar_pantalla()
-                opcion_comparativa_discrepancias(data_manager)
+                clear_screen()
+                option_comparison_discrepancies(data_manager, alerts)
             elif choice == "4": 
-                limpiar_pantalla()
-                opcion_configurar_scheduler(scheduler)
+                clear_screen()
+                option_configure_scheduler(scheduler)
             elif choice == "5": 
-                limpiar_pantalla()
-                opcion_gestion_estaciones(data_manager)
+                clear_screen()
+                option_station_management(data_manager)
             elif choice.upper() == "X": 
-                limpiar_pantalla()
+                clear_screen()
                 sys.exit(0)
         except KeyboardInterrupt: 
             sys.exit(0)
