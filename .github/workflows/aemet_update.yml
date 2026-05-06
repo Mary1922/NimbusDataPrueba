@@ -12,11 +12,11 @@ jobs:
     steps:
       # 1. Descargar tu código del repositorio
       - name: Descargar proyecto
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # 2. Instalar Python
       - name: Instalar Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
@@ -36,3 +36,4 @@ jobs:
           git add data/
           git commit -m "Actualización automática de datos AEMET" || echo "sin cambios"
           git push
+
