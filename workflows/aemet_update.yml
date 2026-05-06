@@ -2,7 +2,7 @@ name: Actualizar datos AEMET v1
 
 on:
   schedule:
-    - cron: "*/15 * * * *"  # cada 15 minutos
+    - cron: "*mkdir -p .github/workflows/15 * * * *"  # cada 15 minutos
   workflow_dispatch:      # permite ejecutarlo manualmente
 
 jobs:
