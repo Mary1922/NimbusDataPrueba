@@ -1,4 +1,4 @@
-name: Actualizar datos AEMET
+name: Actualizar datos AEMET v1
 
 on:
   schedule:
