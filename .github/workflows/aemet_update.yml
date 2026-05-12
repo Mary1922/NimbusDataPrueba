@@ -2,13 +2,16 @@ name: Actualizar datos AEMET v1
 
 on:
   schedule:
-    - cron: "*/15 * * * *"  # cada 15 minutos
+    - cron: "*/30 * * * *"  # cada 30 minutos
   workflow_dispatch:
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
 
+    env:
+      AEMET_API_KEY: ${{ secrets.AEMET_API_KEY }}
+      
     steps:
       # 1. Descargar tu código del repositorio
       - name: Descargar proyecto
@@ -28,7 +31,7 @@ jobs:
       - name: Ejecutar ingesta AEMET
         run: |
           export PYTHONPATH=$PYTHONPATH:$(pwd)
-          python src/main.py
+          python src/ingestion/auto_update.py
 
       # 5. Guardar cambios en GitHub
       - name: Guardar datos actualizados
