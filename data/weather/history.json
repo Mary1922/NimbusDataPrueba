@@ -874,6 +874,19 @@
                 "wind_direction": 340.0,
                 "wind_speed_avg": 1.9,
                 "last_update": "2026-05-15T23:06:07.887009"
+            },
+            "2026-05-16": {
+                "date": "2026-05-16T00:00:00UTC",
+                "station_id": "3129",
+                "name": "MADRID/BARAJAS",
+                "temp_avg": 7.4,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 66.0,
+                "precipitation": 0.0,
+                "wind_direction": 80.0,
+                "wind_speed_avg": 1.2,
+                "last_update": "2026-05-16T01:15:40.699431"
             }
         }
     },
@@ -1972,7 +1985,7 @@
                 "precipitation": 0.0,
                 "wind_direction": 49.0,
                 "wind_speed_avg": 1.5,
-                "last_update": "2026-05-15T23:06:06.319171"
+                "last_update": "2026-05-16T01:15:37.974831"
             }
         }
     },
@@ -3943,6 +3956,19 @@
                 "wind_direction": 36.0,
                 "wind_speed_avg": 3.3,
                 "last_update": "2026-05-15T23:06:09.234668"
+            },
+            "2026-05-16": {
+                "date": "2026-05-16T00:00:00UTC",
+                "station_id": "3194U",
+                "name": "MADRID  C. UNIVERSITARIA",
+                "temp_avg": 8.3,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 66.0,
+                "precipitation": 0.0,
+                "wind_direction": 218.0,
+                "wind_speed_avg": 0.4,
+                "last_update": "2026-05-16T01:15:43.324473"
             }
         }
     },
@@ -5471,6 +5497,19 @@
                 "wind_direction": 268.0,
                 "wind_speed_avg": 2.3,
                 "last_update": "2026-05-15T23:06:10.549584"
+            },
+            "2026-05-16": {
+                "date": "2026-05-16T00:00:00UTC",
+                "station_id": "3195",
+                "name": "MADRID RETIRO",
+                "temp_avg": 10.2,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 60.0,
+                "precipitation": 0.0,
+                "wind_direction": 289.0,
+                "wind_speed_avg": 1.7,
+                "last_update": "2026-05-16T01:15:45.906480"
             }
         }
     },
