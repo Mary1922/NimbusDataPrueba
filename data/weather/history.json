@@ -900,6 +900,19 @@
                 "wind_direction": 110.0,
                 "wind_speed_avg": 1.5,
                 "last_update": "2026-05-18T00:00:32.604282"
+            },
+            "2026-05-18": {
+                "date": "2026-05-18T03:00:00UTC",
+                "station_id": "3129",
+                "name": "MADRID/BARAJAS",
+                "temp_avg": 9.0,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 89.0,
+                "precipitation": 0.0,
+                "wind_direction": 120.0,
+                "wind_speed_avg": 0.7,
+                "last_update": "2026-05-18T04:26:10.044140"
             }
         }
     },
@@ -4021,6 +4034,19 @@
                 "wind_direction": 224.0,
                 "wind_speed_avg": 0.8,
                 "last_update": "2026-05-18T00:00:35.426718"
+            },
+            "2026-05-18": {
+                "date": "2026-05-18T03:00:00UTC",
+                "station_id": "3194U",
+                "name": "MADRID  C. UNIVERSITARIA",
+                "temp_avg": 9.6,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 88.0,
+                "precipitation": 0.0,
+                "wind_direction": 174.0,
+                "wind_speed_avg": 0.1,
+                "last_update": "2026-05-18T04:26:12.484896"
             }
         }
     },
@@ -5575,6 +5601,19 @@
                 "wind_direction": 127.0,
                 "wind_speed_avg": 1.5,
                 "last_update": "2026-05-18T00:00:37.181779"
+            },
+            "2026-05-18": {
+                "date": "2026-05-18T03:00:00UTC",
+                "station_id": "3195",
+                "name": "MADRID RETIRO",
+                "temp_avg": 12.1,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 78.0,
+                "precipitation": 0.0,
+                "wind_direction": 347.0,
+                "wind_speed_avg": 1.6,
+                "last_update": "2026-05-18T04:26:14.687884"
             }
         }
     },
