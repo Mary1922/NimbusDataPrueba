@@ -2141,7 +2141,7 @@
                 "precipitation": 0.0,
                 "wind_direction": 90.0,
                 "wind_speed_avg": 0.8,
-                "last_update": "2026-05-22T05:44:41.354440"
+                "last_update": "2026-05-22T09:27:00.482169"
             }
         }
     },
@@ -4192,17 +4192,17 @@
                 "last_update": "2026-05-21T23:08:19.855311"
             },
             "2026-05-22": {
-                "date": "2026-05-22T05:00:00UTC",
+                "date": "2026-05-22T08:00:00UTC",
                 "station_id": "3194U",
                 "name": "MADRID  C. UNIVERSITARIA",
-                "temp_avg": 14.4,
+                "temp_avg": 24.6,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 61.0,
+                "humidity_avg": 33.0,
                 "precipitation": 0.0,
-                "wind_direction": 28.0,
-                "wind_speed_avg": 1.9,
-                "last_update": "2026-05-22T05:44:43.351663"
+                "wind_direction": 63.0,
+                "wind_speed_avg": 2.9,
+                "last_update": "2026-05-22T09:27:02.423499"
             }
         }
     },
@@ -5811,17 +5811,17 @@
                 "last_update": "2026-05-21T23:08:21.663125"
             },
             "2026-05-22": {
-                "date": "2026-05-22T05:00:00UTC",
+                "date": "2026-05-22T08:00:00UTC",
                 "station_id": "3195",
                 "name": "MADRID RETIRO",
-                "temp_avg": 18.6,
+                "temp_avg": 22.7,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 47.0,
+                "humidity_avg": 37.0,
                 "precipitation": 0.0,
-                "wind_direction": 273.0,
-                "wind_speed_avg": 3.1,
-                "last_update": "2026-05-22T05:44:44.540498"
+                "wind_direction": 314.0,
+                "wind_speed_avg": 1.9,
+                "last_update": "2026-05-22T09:27:03.606419"
             }
         }
     },
