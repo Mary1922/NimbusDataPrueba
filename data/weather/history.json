@@ -1214,17 +1214,17 @@
                 "last_update": "2026-06-10T23:26:09.249172"
             },
             "2026-06-11": {
-                "date": "2026-06-11T21:00:00UTC",
+                "date": "2026-06-11T22:00:00UTC",
                 "station_id": "3129",
                 "name": "MADRID/BARAJAS",
-                "temp_avg": 26.7,
+                "temp_avg": 25.2,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 22.0,
+                "humidity_avg": 23.0,
                 "precipitation": 0.0,
-                "wind_direction": 60.0,
-                "wind_speed_avg": 2.7,
-                "last_update": "2026-06-11T21:35:04.735485"
+                "wind_direction": 40.0,
+                "wind_speed_avg": 2.2,
+                "last_update": "2026-06-11T23:23:16.167692"
             }
         }
     },
@@ -2674,7 +2674,7 @@
                 "precipitation": 0.0,
                 "wind_direction": 52.0,
                 "wind_speed_avg": 2.2,
-                "last_update": "2026-06-11T21:35:03.462391"
+                "last_update": "2026-06-11T23:23:14.980499"
             }
         }
     },
@@ -4985,17 +4985,17 @@
                 "last_update": "2026-06-10T23:26:10.561591"
             },
             "2026-06-11": {
-                "date": "2026-06-11T21:00:00UTC",
+                "date": "2026-06-11T22:00:00UTC",
                 "station_id": "3194U",
                 "name": "MADRID  C. UNIVERSITARIA",
-                "temp_avg": 26.9,
+                "temp_avg": 25.8,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 20.0,
+                "humidity_avg": 21.0,
                 "precipitation": 0.0,
-                "wind_direction": 54.0,
-                "wind_speed_avg": 3.7,
-                "last_update": "2026-06-11T21:35:05.955571"
+                "wind_direction": 56.0,
+                "wind_speed_avg": 3.6,
+                "last_update": "2026-06-11T23:23:17.309173"
             }
         }
     },
