@@ -1,6 +1,6 @@
 {
     "metadata": {
-        "last_update": "2026-06-12T14:20:03.626413",
+        "last_update": "2026-06-12T17:22:19.952821",
         "count": 5
     },
     "stations": {
@@ -32,8 +32,8 @@
             "station_id": "3195",
             "name": "MADRID, RETIRO",
             "province": "MADRID",
-            "latitude": "402442N",
-            "longitude": "034041W",
+            "latitude": "402441N",
+            "longitude": "034040W",
             "altitude": "667"
         },
         "3196": {
