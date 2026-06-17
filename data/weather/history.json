@@ -1292,17 +1292,17 @@
                 "last_update": "2026-06-16T23:05:06.182962"
             },
             "2026-06-17": {
-                "date": "2026-06-17T18:00:00UTC",
+                "date": "2026-06-17T20:00:00UTC",
                 "station_id": "3129",
                 "name": "MADRID/BARAJAS",
-                "temp_avg": 34.3,
+                "temp_avg": 29.9,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 14.0,
+                "humidity_avg": 19.0,
                 "precipitation": 0.0,
-                "wind_direction": 140.0,
-                "wind_speed_avg": 3.3,
-                "last_update": "2026-06-17T18:41:46.662548"
+                "wind_direction": 160.0,
+                "wind_speed_avg": 2.3,
+                "last_update": "2026-06-17T21:07:42.085270"
             }
         }
     },
@@ -2830,7 +2830,7 @@
                 "precipitation": 0.0,
                 "wind_direction": 159.0,
                 "wind_speed_avg": 2.6,
-                "last_update": "2026-06-17T18:41:45.109540"
+                "last_update": "2026-06-17T21:07:40.685145"
             }
         }
     },
@@ -5219,17 +5219,17 @@
                 "last_update": "2026-06-16T23:05:07.478862"
             },
             "2026-06-17": {
-                "date": "2026-06-17T18:00:00UTC",
+                "date": "2026-06-17T20:00:00UTC",
                 "station_id": "3194U",
                 "name": "MADRID  C. UNIVERSITARIA",
-                "temp_avg": 33.5,
+                "temp_avg": 29.9,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 14.0,
+                "humidity_avg": 17.0,
                 "precipitation": 0.0,
-                "wind_direction": 175.0,
-                "wind_speed_avg": 0.6,
-                "last_update": "2026-06-17T18:41:48.188962"
+                "wind_direction": 161.0,
+                "wind_speed_avg": 1.2,
+                "last_update": "2026-06-17T21:07:43.498178"
             }
         }
     },
