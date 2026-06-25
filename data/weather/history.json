@@ -3013,6 +3013,19 @@
                 "wind_direction": 149.0,
                 "wind_speed_avg": 3.4,
                 "last_update": "2026-06-25T00:14:08.128405"
+            },
+            "2026-06-25": {
+                "date": "2026-06-25T01:00:00UTC",
+                "station_id": "3126Y",
+                "name": "EL GOLOSO (AUTOMÁTICA)",
+                "temp_avg": 24.8,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 40.0,
+                "precipitation": 0.0,
+                "wind_direction": 113.0,
+                "wind_speed_avg": 2.2,
+                "last_update": "2026-06-25T04:45:42.115902"
             }
         }
     },
@@ -5503,6 +5516,19 @@
                 "wind_direction": 136.0,
                 "wind_speed_avg": 2.3,
                 "last_update": "2026-06-25T00:14:11.072243"
+            },
+            "2026-06-25": {
+                "date": "2026-06-25T04:00:00UTC",
+                "station_id": "3194U",
+                "name": "MADRID  C. UNIVERSITARIA",
+                "temp_avg": 24.6,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 42.0,
+                "precipitation": 0.0,
+                "wind_direction": 196.0,
+                "wind_speed_avg": 0.7,
+                "last_update": "2026-06-25T04:46:02.069213"
             }
         }
     },
@@ -7551,6 +7577,19 @@
                 "wind_direction": 143.0,
                 "wind_speed_avg": 4.4,
                 "last_update": "2026-06-25T00:14:13.165496"
+            },
+            "2026-06-25": {
+                "date": "2026-06-25T04:00:00UTC",
+                "station_id": "3195",
+                "name": "MADRID RETIRO",
+                "temp_avg": 24.3,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 43.0,
+                "precipitation": 0.0,
+                "wind_direction": 184.0,
+                "wind_speed_avg": 1.8,
+                "last_update": "2026-06-25T04:46:03.250320"
             }
         }
     },
