@@ -1602,6 +1602,19 @@
                 "wind_direction": 360.0,
                 "wind_speed_avg": 1.2,
                 "last_update": "2026-07-10T23:28:33.993177"
+            },
+            "2026-07-11": {
+                "date": "2026-07-11T00:00:00UTC",
+                "station_id": "3129",
+                "name": "MADRID/BARAJAS",
+                "temp_avg": 22.5,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 36.0,
+                "precipitation": 0.0,
+                "wind_direction": 350.0,
+                "wind_speed_avg": 2.7,
+                "last_update": "2026-07-11T01:00:26.385556"
             }
         }
     },
@@ -3428,7 +3441,7 @@
                 "precipitation": 0.0,
                 "wind_direction": 41.0,
                 "wind_speed_avg": 1.1,
-                "last_update": "2026-07-10T23:28:32.980879"
+                "last_update": "2026-07-11T01:00:24.718672"
             }
         }
     },
@@ -6127,6 +6140,19 @@
                 "wind_direction": 4.0,
                 "wind_speed_avg": 0.7,
                 "last_update": "2026-07-10T23:28:34.986135"
+            },
+            "2026-07-11": {
+                "date": "2026-07-11T00:00:00UTC",
+                "station_id": "3194U",
+                "name": "MADRID  C. UNIVERSITARIA",
+                "temp_avg": 22.4,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 35.0,
+                "precipitation": 0.0,
+                "wind_direction": 39.0,
+                "wind_speed_avg": 1.7,
+                "last_update": "2026-07-11T01:00:27.967594"
             }
         }
     },
@@ -8383,6 +8409,19 @@
                 "wind_direction": 14.0,
                 "wind_speed_avg": 1.4,
                 "last_update": "2026-07-10T23:28:36.000645"
+            },
+            "2026-07-11": {
+                "date": "2026-07-11T00:00:00UTC",
+                "station_id": "3195",
+                "name": "MADRID RETIRO",
+                "temp_avg": 25.4,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 30.0,
+                "precipitation": 0.0,
+                "wind_direction": 35.0,
+                "wind_speed_avg": 2.7,
+                "last_update": "2026-07-11T01:00:29.605803"
             }
         }
     },
