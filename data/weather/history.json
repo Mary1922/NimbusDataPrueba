@@ -1771,6 +1771,19 @@
                 "wind_direction": 190.0,
                 "wind_speed_avg": 2.7,
                 "last_update": "2026-07-23T23:28:18.030862"
+            },
+            "2026-07-24": {
+                "date": "2026-07-24T00:00:00UTC",
+                "station_id": "3129",
+                "name": "MADRID/BARAJAS",
+                "temp_avg": 26.7,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 22.0,
+                "precipitation": 0.0,
+                "wind_direction": 170.0,
+                "wind_speed_avg": 1.0,
+                "last_update": "2026-07-24T00:59:16.289975"
             }
         }
     },
@@ -3766,7 +3779,7 @@
                 "precipitation": 0.0,
                 "wind_direction": 253.0,
                 "wind_speed_avg": 0.1,
-                "last_update": "2026-07-23T23:28:16.488548"
+                "last_update": "2026-07-24T00:59:14.722387"
             }
         }
     },
@@ -6634,6 +6647,19 @@
                 "wind_direction": 200.0,
                 "wind_speed_avg": 0.3,
                 "last_update": "2026-07-23T23:28:19.554575"
+            },
+            "2026-07-24": {
+                "date": "2026-07-24T00:00:00UTC",
+                "station_id": "3194U",
+                "name": "MADRID  C. UNIVERSITARIA",
+                "temp_avg": 24.8,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 20.0,
+                "precipitation": 0.0,
+                "wind_direction": 65.0,
+                "wind_speed_avg": 0.2,
+                "last_update": "2026-07-24T00:59:17.893508"
             }
         }
     },
@@ -9059,6 +9085,19 @@
                 "wind_direction": 278.0,
                 "wind_speed_avg": 1.8,
                 "last_update": "2026-07-23T23:28:21.229037"
+            },
+            "2026-07-24": {
+                "date": "2026-07-24T00:00:00UTC",
+                "station_id": "3195",
+                "name": "MADRID RETIRO",
+                "temp_avg": 27.1,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 22.0,
+                "precipitation": 0.0,
+                "wind_direction": 169.0,
+                "wind_speed_avg": 1.5,
+                "last_update": "2026-07-24T00:59:19.417249"
             }
         }
     },
