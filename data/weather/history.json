@@ -2134,7 +2134,7 @@
                 "precipitation": 0.0,
                 "wind_direction": 300.0,
                 "wind_speed_avg": 0.7,
-                "last_update": "2026-08-20T05:30:14.677576"
+                "last_update": "2026-08-20T05:59:21.687601"
             }
         }
     },
@@ -4494,7 +4494,7 @@
                 "precipitation": 0.0,
                 "wind_direction": 288.0,
                 "wind_speed_avg": 0.0,
-                "last_update": "2026-08-20T05:30:12.990851"
+                "last_update": "2026-08-20T05:59:19.843810"
             }
         }
     },
@@ -7715,17 +7715,17 @@
                 "last_update": "2026-08-19T23:47:24.638430"
             },
             "2026-08-20": {
-                "date": "2026-08-20T04:00:00UTC",
+                "date": "2026-08-20T05:00:00UTC",
                 "station_id": "3194U",
                 "name": "MADRID  C. UNIVERSITARIA",
-                "temp_avg": 21.0,
+                "temp_avg": 20.1,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 45.0,
+                "humidity_avg": 52.0,
                 "precipitation": 0.0,
-                "wind_direction": 185.0,
-                "wind_speed_avg": 0.3,
-                "last_update": "2026-08-20T05:30:16.315382"
+                "wind_direction": 246.0,
+                "wind_speed_avg": 1.0,
+                "last_update": "2026-08-20T05:59:23.422476"
             }
         }
     },
@@ -10514,7 +10514,7 @@
                 "precipitation": 0.0,
                 "wind_direction": 275.0,
                 "wind_speed_avg": 2.7,
-                "last_update": "2026-08-20T05:30:18.017776"
+                "last_update": "2026-08-20T05:59:25.203585"
             }
         }
     },
