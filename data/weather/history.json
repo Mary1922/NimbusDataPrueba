@@ -2423,17 +2423,17 @@
                 "last_update": "2026-09-11T23:54:33.378151"
             },
             "2026-09-12": {
-                "date": "2026-09-12T17:00:00UTC",
+                "date": "2026-09-12T20:00:00UTC",
                 "station_id": "3129",
                 "name": "MADRID/BARAJAS",
-                "temp_avg": 32.8,
+                "temp_avg": 24.9,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 17.0,
+                "humidity_avg": 28.0,
                 "precipitation": 0.0,
-                "wind_direction": 170.0,
-                "wind_speed_avg": 1.4,
-                "last_update": "2026-09-12T18:09:30.304988"
+                "wind_direction": 360.0,
+                "wind_speed_avg": 1.0,
+                "last_update": "2026-09-12T20:47:48.508137"
             }
         }
     },
@@ -5092,7 +5092,7 @@
                 "precipitation": 0.0,
                 "wind_direction": 139.0,
                 "wind_speed_avg": 1.9,
-                "last_update": "2026-09-12T18:09:28.327420"
+                "last_update": "2026-09-12T20:47:46.795158"
             }
         }
     },
@@ -8612,17 +8612,17 @@
                 "last_update": "2026-09-11T23:54:34.736150"
             },
             "2026-09-12": {
-                "date": "2026-09-12T17:00:00UTC",
+                "date": "2026-09-12T20:00:00UTC",
                 "station_id": "3194U",
                 "name": "MADRID  C. UNIVERSITARIA",
-                "temp_avg": 31.2,
+                "temp_avg": 23.7,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 17.0,
+                "humidity_avg": 28.0,
                 "precipitation": 0.0,
-                "wind_direction": 58.0,
-                "wind_speed_avg": 0.5,
-                "last_update": "2026-09-12T18:09:32.289717"
+                "wind_direction": 62.0,
+                "wind_speed_avg": 1.2,
+                "last_update": "2026-09-12T20:47:50.176843"
             }
         }
     },
@@ -11700,17 +11700,17 @@
                 "last_update": "2026-09-11T23:54:36.259012"
             },
             "2026-09-12": {
-                "date": "2026-09-12T17:00:00UTC",
+                "date": "2026-09-12T20:00:00UTC",
                 "station_id": "3195",
                 "name": "MADRID RETIRO",
-                "temp_avg": 29.4,
+                "temp_avg": 25.2,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 23.0,
+                "humidity_avg": 30.0,
                 "precipitation": 0.0,
-                "wind_direction": 138.0,
-                "wind_speed_avg": 0.7,
-                "last_update": "2026-09-12T18:09:33.993803"
+                "wind_direction": 100.0,
+                "wind_speed_avg": 1.1,
+                "last_update": "2026-09-12T20:47:51.878148"
             }
         }
     },
