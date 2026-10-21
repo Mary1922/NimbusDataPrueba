@@ -2930,17 +2930,17 @@
                 "last_update": "2026-10-20T22:57:23.819994"
             },
             "2026-10-21": {
-                "date": "2026-10-21T11:00:00UTC",
+                "date": "2026-10-21T17:00:00UTC",
                 "station_id": "3129",
                 "name": "MADRID/BARAJAS",
-                "temp_avg": 15.3,
+                "temp_avg": 17.8,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 57.0,
+                "humidity_avg": 36.0,
                 "precipitation": 0.0,
-                "wind_direction": 330.0,
-                "wind_speed_avg": 1.7,
-                "last_update": "2026-10-21T12:11:33.743369"
+                "wind_direction": 280.0,
+                "wind_speed_avg": 4.1,
+                "last_update": "2026-10-21T17:32:23.420612"
             }
         }
     },
@@ -6096,17 +6096,17 @@
                 "last_update": "2026-10-21T01:25:21.698360"
             },
             "2026-10-21": {
-                "date": "2026-10-21T09:00:00UTC",
+                "date": "2026-10-21T17:00:00UTC",
                 "station_id": "3126Y",
                 "name": "EL GOLOSO (AUTOMÁTICA)",
-                "temp_avg": 11.5,
+                "temp_avg": 15.7,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 74.0,
+                "humidity_avg": 45.0,
                 "precipitation": 0.0,
-                "wind_direction": 90.0,
-                "wind_speed_avg": 1.0,
-                "last_update": "2026-10-21T12:11:18.673641"
+                "wind_direction": 290.0,
+                "wind_speed_avg": 0.7,
+                "last_update": "2026-10-21T17:32:21.988834"
             }
         }
     },
@@ -10133,17 +10133,17 @@
                 "last_update": "2026-10-20T22:57:38.884878"
             },
             "2026-10-21": {
-                "date": "2026-10-21T11:00:00UTC",
+                "date": "2026-10-21T17:00:00UTC",
                 "station_id": "3194U",
                 "name": "MADRID  C. UNIVERSITARIA",
-                "temp_avg": 18.7,
+                "temp_avg": 17.2,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 47.0,
+                "humidity_avg": 38.0,
                 "precipitation": 0.0,
-                "wind_direction": 270.0,
-                "wind_speed_avg": 2.6,
-                "last_update": "2026-10-21T12:11:48.795986"
+                "wind_direction": 277.0,
+                "wind_speed_avg": 1.5,
+                "last_update": "2026-10-21T17:32:24.761203"
             }
         }
     },
