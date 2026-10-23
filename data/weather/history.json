@@ -2954,6 +2954,19 @@
                 "wind_direction": 210.0,
                 "wind_speed_avg": 3.9,
                 "last_update": "2026-10-22T19:24:06.848769"
+            },
+            "2026-10-23": {
+                "date": "2026-10-23T05:00:00UTC",
+                "station_id": "3129",
+                "name": "MADRID/BARAJAS",
+                "temp_avg": 9.7,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 82.0,
+                "precipitation": 0.0,
+                "wind_direction": 150.0,
+                "wind_speed_avg": 3.0,
+                "last_update": "2026-10-23T06:19:23.799105"
             }
         }
     },
@@ -6133,6 +6146,19 @@
                 "wind_direction": 273.0,
                 "wind_speed_avg": 0.0,
                 "last_update": "2026-10-23T01:16:04.838424"
+            },
+            "2026-10-23": {
+                "date": "2026-10-23T05:00:00UTC",
+                "station_id": "3126Y",
+                "name": "EL GOLOSO (AUTOMÁTICA)",
+                "temp_avg": 9.7,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 80.0,
+                "precipitation": 0.0,
+                "wind_direction": 324.0,
+                "wind_speed_avg": 0.3,
+                "last_update": "2026-10-23T06:19:22.380138"
             }
         }
     },
@@ -10185,17 +10211,17 @@
                 "last_update": "2026-10-22T22:37:31.809666"
             },
             "2026-10-23": {
-                "date": "2026-10-23T00:00:00UTC",
+                "date": "2026-10-23T05:00:00UTC",
                 "station_id": "3194U",
                 "name": "MADRID  C. UNIVERSITARIA",
-                "temp_avg": 12.2,
+                "temp_avg": 9.2,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 76.0,
+                "humidity_avg": 91.0,
                 "precipitation": 0.0,
-                "wind_direction": 203.0,
-                "wind_speed_avg": 0.7,
-                "last_update": "2026-10-23T01:16:07.151648"
+                "wind_direction": 266.0,
+                "wind_speed_avg": 0.2,
+                "last_update": "2026-10-23T06:19:30.053780"
             }
         }
     },
