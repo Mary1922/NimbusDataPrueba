@@ -2980,6 +2980,19 @@
                 "wind_direction": 150.0,
                 "wind_speed_avg": 3.0,
                 "last_update": "2026-10-24T21:03:47.142736"
+            },
+            "2026-10-25": {
+                "date": "2026-10-25T03:00:00UTC",
+                "station_id": "3129",
+                "name": "MADRID/BARAJAS",
+                "temp_avg": 6.8,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 81.0,
+                "precipitation": 0.0,
+                "wind_direction": 350.0,
+                "wind_speed_avg": 1.1,
+                "last_update": "2026-10-25T03:31:54.907714"
             }
         }
     },
@@ -6185,6 +6198,19 @@
                 "wind_direction": 275.0,
                 "wind_speed_avg": 0.3,
                 "last_update": "2026-10-24T23:32:19.596116"
+            },
+            "2026-10-25": {
+                "date": "2026-10-25T01:00:00UTC",
+                "station_id": "3126Y",
+                "name": "EL GOLOSO (AUTOMÁTICA)",
+                "temp_avg": 8.0,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 69.0,
+                "precipitation": 0.0,
+                "wind_direction": 111.0,
+                "wind_speed_avg": 0.6,
+                "last_update": "2026-10-25T03:31:48.895619"
             }
         }
     },
@@ -13895,6 +13921,19 @@
                 "wind_direction": 237.0,
                 "wind_speed_avg": 1.4,
                 "last_update": "2026-10-24T23:32:23.569305"
+            },
+            "2026-10-25": {
+                "date": "2026-10-25T03:00:00UTC",
+                "station_id": "3195",
+                "name": "MADRID RETIRO",
+                "temp_avg": 9.9,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 67.0,
+                "precipitation": 0.0,
+                "wind_direction": 205.0,
+                "wind_speed_avg": 1.1,
+                "last_update": "2026-10-25T03:31:57.121543"
             }
         }
     },
