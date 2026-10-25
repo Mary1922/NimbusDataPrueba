@@ -2982,17 +2982,17 @@
                 "last_update": "2026-10-24T21:03:47.142736"
             },
             "2026-10-25": {
-                "date": "2026-10-25T03:00:00UTC",
+                "date": "2026-10-25T08:00:00UTC",
                 "station_id": "3129",
                 "name": "MADRID/BARAJAS",
-                "temp_avg": 6.8,
+                "temp_avg": 7.0,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 81.0,
+                "humidity_avg": 86.0,
                 "precipitation": 0.0,
-                "wind_direction": 350.0,
-                "wind_speed_avg": 1.1,
-                "last_update": "2026-10-25T03:31:54.907714"
+                "wind_direction": 10.0,
+                "wind_speed_avg": 1.7,
+                "last_update": "2026-10-25T08:58:37.106171"
             }
         }
     },
@@ -10287,6 +10287,19 @@
                 "wind_direction": 144.0,
                 "wind_speed_avg": 0.3,
                 "last_update": "2026-10-24T23:32:22.052702"
+            },
+            "2026-10-25": {
+                "date": "2026-10-25T08:00:00UTC",
+                "station_id": "3194U",
+                "name": "MADRID  C. UNIVERSITARIA",
+                "temp_avg": 9.1,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 78.0,
+                "precipitation": 0.0,
+                "wind_direction": 219.0,
+                "wind_speed_avg": 0.0,
+                "last_update": "2026-10-25T08:58:38.588557"
             }
         }
     },
@@ -13923,17 +13936,17 @@
                 "last_update": "2026-10-24T23:32:23.569305"
             },
             "2026-10-25": {
-                "date": "2026-10-25T03:00:00UTC",
+                "date": "2026-10-25T08:00:00UTC",
                 "station_id": "3195",
                 "name": "MADRID RETIRO",
-                "temp_avg": 9.9,
+                "temp_avg": 9.4,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 67.0,
+                "humidity_avg": 74.0,
                 "precipitation": 0.0,
-                "wind_direction": 205.0,
-                "wind_speed_avg": 1.1,
-                "last_update": "2026-10-25T03:31:57.121543"
+                "wind_direction": 106.0,
+                "wind_speed_avg": 1.4,
+                "last_update": "2026-10-25T08:58:53.566506"
             }
         }
     },
