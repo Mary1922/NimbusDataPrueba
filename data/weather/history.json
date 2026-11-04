@@ -6432,6 +6432,19 @@
                 "wind_direction": 70.0,
                 "wind_speed_avg": 0.6,
                 "last_update": "2026-11-03T03:37:13.495322"
+            },
+            "2026-11-04": {
+                "date": "2026-11-04T05:00:00UTC",
+                "station_id": "3126Y",
+                "name": "EL GOLOSO (AUTOMÁTICA)",
+                "temp_avg": 1.9,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 72.0,
+                "precipitation": 0.0,
+                "wind_direction": 92.0,
+                "wind_speed_avg": 0.6,
+                "last_update": "2026-11-04T06:51:57.793157"
             }
         }
     },
