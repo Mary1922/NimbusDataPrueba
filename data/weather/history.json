@@ -6522,7 +6522,7 @@
                 "precipitation": 0.0,
                 "wind_direction": 274.0,
                 "wind_speed_avg": 0.1,
-                "last_update": "2026-11-07T17:30:06.032759"
+                "last_update": "2026-11-07T21:03:11.604429"
             }
         }
     },
@@ -10755,6 +10755,19 @@
                 "wind_direction": 181.0,
                 "wind_speed_avg": 0.8,
                 "last_update": "2026-11-06T23:41:55.201045"
+            },
+            "2026-11-07": {
+                "date": "2026-11-07T20:00:00UTC",
+                "station_id": "3194U",
+                "name": "MADRID  C. UNIVERSITARIA",
+                "temp_avg": 10.8,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 87.0,
+                "precipitation": 0.0,
+                "wind_direction": 330.0,
+                "wind_speed_avg": 0.7,
+                "last_update": "2026-11-07T21:03:13.766256"
             }
         }
     },
