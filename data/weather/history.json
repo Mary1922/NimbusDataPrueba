@@ -6512,17 +6512,17 @@
                 "last_update": "2026-11-06T18:57:47.787295"
             },
             "2026-11-07": {
-                "date": "2026-11-07T09:00:00UTC",
+                "date": "2026-11-07T17:00:00UTC",
                 "station_id": "3126Y",
                 "name": "EL GOLOSO (AUTOMÁTICA)",
-                "temp_avg": 9.7,
+                "temp_avg": 14.6,
                 "temp_min": null,
                 "temp_max": null,
-                "humidity_avg": 82.0,
+                "humidity_avg": 64.0,
                 "precipitation": 0.0,
-                "wind_direction": 72.0,
-                "wind_speed_avg": 1.0,
-                "last_update": "2026-11-07T11:34:17.696921"
+                "wind_direction": 274.0,
+                "wind_speed_avg": 0.1,
+                "last_update": "2026-11-07T17:30:06.032759"
             }
         }
     },
