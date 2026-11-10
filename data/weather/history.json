@@ -3149,6 +3149,19 @@
                 "wind_direction": 130.0,
                 "wind_speed_avg": 2.9,
                 "last_update": "2026-11-09T10:06:35.227975"
+            },
+            "2026-11-10": {
+                "date": "2026-11-10T02:00:00UTC",
+                "station_id": "3129",
+                "name": "MADRID/BARAJAS",
+                "temp_avg": 13.2,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 94.0,
+                "precipitation": 0.0,
+                "wind_direction": 150.0,
+                "wind_speed_avg": 4.4,
+                "last_update": "2026-11-10T03:21:25.973357"
             }
         }
     },
@@ -14649,6 +14662,19 @@
                 "wind_direction": 137.0,
                 "wind_speed_avg": 2.9,
                 "last_update": "2026-11-09T10:06:47.166474"
+            },
+            "2026-11-10": {
+                "date": "2026-11-10T02:00:00UTC",
+                "station_id": "3195",
+                "name": "MADRID RETIRO",
+                "temp_avg": 13.0,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 92.0,
+                "precipitation": 0.0,
+                "wind_direction": 198.0,
+                "wind_speed_avg": 2.2,
+                "last_update": "2026-11-10T03:21:27.698068"
             }
         }
     },
