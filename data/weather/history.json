@@ -3162,6 +3162,19 @@
                 "wind_direction": 150.0,
                 "wind_speed_avg": 4.4,
                 "last_update": "2026-11-10T03:21:25.973357"
+            },
+            "2026-11-11": {
+                "date": "2026-11-11T14:00:00UTC",
+                "station_id": "3129",
+                "name": "MADRID/BARAJAS",
+                "temp_avg": 14.7,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 94.0,
+                "precipitation": 0.5,
+                "wind_direction": 160.0,
+                "wind_speed_avg": 7.8,
+                "last_update": "2026-11-11T14:58:39.146658"
             }
         }
     },
@@ -10887,17 +10900,17 @@
                 "last_update": "2026-11-10T19:24:23.799948"
             },
             "2026-11-11": {
-                "date": "2026-11-11T06:00:00UTC",
+                "date": "2026-11-11T14:00:00UTC",
                 "station_id": "3194U",
                 "name": "MADRID  C. UNIVERSITARIA",
-                "temp_avg": 14.2,
+                "temp_avg": 14.1,
                 "temp_min": null,
                 "temp_max": null,
                 "humidity_avg": 99.0,
-                "precipitation": 0.0,
-                "wind_direction": 149.0,
-                "wind_speed_avg": 1.0,
-                "last_update": "2026-11-11T06:56:30.030960"
+                "precipitation": 0.1,
+                "wind_direction": 154.0,
+                "wind_speed_avg": 2.2,
+                "last_update": "2026-11-11T14:58:45.268825"
             }
         }
     },
