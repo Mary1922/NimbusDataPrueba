@@ -3188,6 +3188,19 @@
                 "wind_direction": 230.0,
                 "wind_speed_avg": 9.0,
                 "last_update": "2026-11-12T10:42:45.565152"
+            },
+            "2026-11-13": {
+                "date": "2026-11-13T14:00:00UTC",
+                "station_id": "3129",
+                "name": "MADRID/BARAJAS",
+                "temp_avg": 16.9,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 65.0,
+                "precipitation": 0.0,
+                "wind_direction": 220.0,
+                "wind_speed_avg": 8.7,
+                "last_update": "2026-11-13T14:48:43.376552"
             }
         }
     },
