@@ -6666,6 +6666,19 @@
                 "wind_direction": 263.0,
                 "wind_speed_avg": 0.5,
                 "last_update": "2026-11-13T06:23:45.820248"
+            },
+            "2026-11-14": {
+                "date": "2026-11-14T01:00:00UTC",
+                "station_id": "3126Y",
+                "name": "EL GOLOSO (AUTOMÁTICA)",
+                "temp_avg": 11.6,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 96.0,
+                "precipitation": 0.0,
+                "wind_direction": 252.0,
+                "wind_speed_avg": 1.0,
+                "last_update": "2026-11-14T01:36:01.570941"
             }
         }
     },
@@ -14844,6 +14857,19 @@
                 "wind_direction": 220.0,
                 "wind_speed_avg": 3.3,
                 "last_update": "2026-11-13T21:13:33.482423"
+            },
+            "2026-11-14": {
+                "date": "2026-11-14T01:00:00UTC",
+                "station_id": "3195",
+                "name": "MADRID RETIRO",
+                "temp_avg": 12.9,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 91.0,
+                "precipitation": 0.0,
+                "wind_direction": 220.0,
+                "wind_speed_avg": 4.4,
+                "last_update": "2026-11-14T01:36:04.039152"
             }
         }
     },
