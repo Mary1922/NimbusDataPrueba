@@ -3227,6 +3227,19 @@
                 "wind_direction": 220.0,
                 "wind_speed_avg": 7.0,
                 "last_update": "2026-11-15T14:39:17.301615"
+            },
+            "2026-11-16": {
+                "date": "2026-11-16T06:00:00UTC",
+                "station_id": "3129",
+                "name": "MADRID/BARAJAS",
+                "temp_avg": 11.7,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 98.0,
+                "precipitation": 0.0,
+                "wind_direction": 230.0,
+                "wind_speed_avg": 3.0,
+                "last_update": "2026-11-16T07:04:51.765430"
             }
         }
     },
@@ -6718,6 +6731,19 @@
                 "wind_direction": 184.0,
                 "wind_speed_avg": 0.9,
                 "last_update": "2026-11-16T00:11:09.924776"
+            },
+            "2026-11-16": {
+                "date": "2026-11-16T05:00:00UTC",
+                "station_id": "3126Y",
+                "name": "EL GOLOSO (AUTOMÁTICA)",
+                "temp_avg": 10.4,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 98.0,
+                "precipitation": 0.0,
+                "wind_direction": 256.0,
+                "wind_speed_avg": 0.9,
+                "last_update": "2026-11-16T07:04:50.000344"
             }
         }
     },
@@ -14948,6 +14974,19 @@
                 "wind_direction": 239.0,
                 "wind_speed_avg": 3.5,
                 "last_update": "2026-11-15T14:39:45.358309"
+            },
+            "2026-11-16": {
+                "date": "2026-11-16T06:00:00UTC",
+                "station_id": "3195",
+                "name": "MADRID RETIRO",
+                "temp_avg": 11.8,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 96.0,
+                "precipitation": 0.0,
+                "wind_direction": 239.0,
+                "wind_speed_avg": 1.7,
+                "last_update": "2026-11-16T07:04:55.242985"
             }
         }
     },
