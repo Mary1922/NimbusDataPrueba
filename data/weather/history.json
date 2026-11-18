@@ -11145,6 +11145,19 @@
                 "wind_direction": 165.0,
                 "wind_speed_avg": 0.9,
                 "last_update": "2026-11-17T18:23:55.354469"
+            },
+            "2026-11-18": {
+                "date": "2026-11-18T08:00:00UTC",
+                "station_id": "3194U",
+                "name": "MADRID  C. UNIVERSITARIA",
+                "temp_avg": 15.7,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 97.0,
+                "precipitation": 0.0,
+                "wind_direction": 233.0,
+                "wind_speed_avg": 3.8,
+                "last_update": "2026-11-18T08:55:01.838948"
             }
         }
     },
