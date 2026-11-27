@@ -6952,6 +6952,19 @@
                 "wind_direction": 115.0,
                 "wind_speed_avg": 0.9,
                 "last_update": "2026-11-26T20:23:59.331307"
+            },
+            "2026-11-27": {
+                "date": "2026-11-27T01:00:00UTC",
+                "station_id": "3126Y",
+                "name": "EL GOLOSO (AUTOMÁTICA)",
+                "temp_avg": 1.9,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 87.0,
+                "precipitation": 0.0,
+                "wind_direction": 307.0,
+                "wind_speed_avg": 1.0,
+                "last_update": "2026-11-27T03:04:55.639398"
             }
         }
     },
@@ -11444,6 +11457,19 @@
                 "wind_direction": 9.0,
                 "wind_speed_avg": 1.1,
                 "last_update": "2026-11-26T20:24:01.781859"
+            },
+            "2026-11-27": {
+                "date": "2026-11-27T02:00:00UTC",
+                "station_id": "3194U",
+                "name": "MADRID  C. UNIVERSITARIA",
+                "temp_avg": 1.1,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 99.0,
+                "precipitation": 0.0,
+                "wind_direction": 25.0,
+                "wind_speed_avg": 0.5,
+                "last_update": "2026-11-27T03:04:57.768689"
             }
         }
     },
