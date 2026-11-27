@@ -15481,6 +15481,19 @@
                 "wind_direction": 94.0,
                 "wind_speed_avg": 1.2,
                 "last_update": "2026-11-26T11:18:34.070230"
+            },
+            "2026-11-27": {
+                "date": "2026-11-27T21:00:00UTC",
+                "station_id": "3195",
+                "name": "MADRID RETIRO",
+                "temp_avg": 7.4,
+                "temp_min": null,
+                "temp_max": null,
+                "humidity_avg": 95.0,
+                "precipitation": 0.0,
+                "wind_direction": 331.0,
+                "wind_speed_avg": 1.5,
+                "last_update": "2026-11-27T21:51:41.461755"
             }
         }
     },
